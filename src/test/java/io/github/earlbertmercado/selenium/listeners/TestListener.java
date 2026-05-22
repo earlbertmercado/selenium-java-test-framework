@@ -16,6 +16,7 @@ import java.util.UUID;
 public class TestListener implements ITestListener {
     private static final String DEFAULT_LOG_CONTEXT = "-";
     private static final String TRACE_ID = "traceId";
+
     private static final Logger log = LogManager.getLogger(TestListener.class);
 
     @Override
