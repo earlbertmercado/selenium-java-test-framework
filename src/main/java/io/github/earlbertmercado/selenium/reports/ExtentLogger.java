@@ -18,7 +18,10 @@ public final class ExtentLogger {
     }
 
     public static void failWithScreenshot(String message) {
-        ExtentReportManager.getExtentTest().fail(message,
-                MediaEntityBuilder.createScreenCaptureFromBase64String(ScreenshotUtils.getBase64Image()).build());
+        ExtentReportManager.getExtentTest().fail(
+                message, MediaEntityBuilder.createScreenCaptureFromBase64String(
+                        ScreenshotUtils.getBase64Image()
+                ).build()
+        );
     }
 }

@@ -41,9 +41,6 @@ public final class ExtentReportManager {
         extentTestThreadLocal.remove();
     }
 
-//    public static void createTest(String testCaseName, String tagName) {
-//        setExtentTest(extent.createTest(testCaseName).assignCategory(tagName));
-//    }
     public static void createTest(String testCaseName, String tagName, String description) {
         ExtentTest test = extent.createTest(testCaseName).assignCategory(tagName);
         if (description != null && !description.isEmpty()) {

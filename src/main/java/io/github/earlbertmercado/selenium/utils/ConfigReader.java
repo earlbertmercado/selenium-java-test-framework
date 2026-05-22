@@ -22,7 +22,7 @@ public final class ConfigReader {
     public static String get(String key) {
         String value = properties.getProperty(key.toLowerCase().trim());
         if (value == null) {
-            throw new FrameworkException("Target value property associated with key [" + key + "] returned Null.");
+            throw new FrameworkException("Config key returned null: " + key);
         }
         return value;
     }
