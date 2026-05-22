@@ -14,21 +14,27 @@ import org.testng.ITestResult;
 import java.util.UUID;
 
 public class TestListener implements ITestListener {
-    private static final String DEFAULT_LOG_CONTEXT = "-";
     private static final String TRACE_ID = "traceId";
+
+    // Prefixes for different operation types (all 4 letters for consistent spacing)
+    private static final String SUIT_PREFIX = "SUIT";
+    private static final String TEST_PREFIX = "TEST";
+    private static final String FIXT_PREFIX = "FIXT";
 
     private static final Logger log = LogManager.getLogger(TestListener.class);
 
     @Override
     public void onStart(ITestContext context) {
-        ThreadContext.put(TRACE_ID, DEFAULT_LOG_CONTEXT);
+        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID().toString();
+        ThreadContext.put(TRACE_ID, traceId);
         log.info("Suite execution started.");
         ExtentReportManager.initReports();
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        ThreadContext.put(TRACE_ID, DEFAULT_LOG_CONTEXT);
+        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID().toString();
+        ThreadContext.put(TRACE_ID, traceId);
         log.info("Suite execution completed.");
         ExtentReportManager.flushReports();
 
@@ -38,8 +44,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        // Generate a short unique ID for the current test thread to filter logs
-        String traceId = UUID.randomUUID().toString();
+        // Generate a unique ID with TEST prefix for the current test thread
+        String traceId = TEST_PREFIX + "-" + UUID.randomUUID().toString();
         ThreadContext.put(TRACE_ID, traceId);
 
         log.info("Starting test execution for: {}", result.getName());
@@ -106,6 +112,7 @@ public class TestListener implements ITestListener {
 
     private void finalizeTestContext() {
         ExtentReportManager.unload();
-        ThreadContext.put(TRACE_ID, DEFAULT_LOG_CONTEXT);
+        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID().toString();
+        ThreadContext.put(TRACE_ID, traceId);
     }
 }
