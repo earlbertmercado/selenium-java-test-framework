@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SauceDemo Test Suite" parallel="classes" thread-count="2">
+
+    <listeners>
+        <listener class-name="io.github.earlbertmercado.selenium.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Regression Automated Run">
+        <classes>
+            <class name="io.github.earlbertmercado.selenium.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>
