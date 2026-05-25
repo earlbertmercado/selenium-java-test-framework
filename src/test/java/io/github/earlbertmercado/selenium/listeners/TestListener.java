@@ -25,7 +25,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
         log.info("Suite execution started.");
         ExtentReportManager.initReports();
@@ -33,7 +33,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext context) {
-        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
         log.info("Suite execution completed.");
         ExtentReportManager.flushReports();
@@ -45,7 +45,7 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
         // Generate a unique ID with TEST prefix for the current test thread
-        String traceId = TEST_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = TEST_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
 
         log.info("Starting test execution for: {}", result.getName());
@@ -112,7 +112,7 @@ public class TestListener implements ITestListener {
 
     private void finalizeTestContext() {
         ExtentReportManager.unload();
-        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
     }
 }

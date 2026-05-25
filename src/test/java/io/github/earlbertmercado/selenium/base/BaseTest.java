@@ -30,7 +30,7 @@ public class BaseTest {
     @BeforeMethod
     protected void setUp() {
         // Set FIXT prefix for setup operations
-        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
 
         assertion = new Assertion();
@@ -51,7 +51,7 @@ public class BaseTest {
     @AfterMethod
     protected void tearDown() {
         // Set FIXT prefix for teardown operations
-        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID().toString();
+        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID();
         ThreadContext.put(TRACE_ID, traceId);
 
         log.info("Starting teardown process...");
