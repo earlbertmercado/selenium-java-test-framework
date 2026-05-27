@@ -6,6 +6,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public final class FirefoxBrowser implements BrowserConfig {
+
     @Override
     public WebDriver createLocal() {
         return new FirefoxDriver(new FirefoxOptions().addArguments("--width=1920", "--height=1080"));

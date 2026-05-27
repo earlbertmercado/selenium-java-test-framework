@@ -8,10 +8,13 @@ import io.github.earlbertmercado.selenium.constants.FrameworkConstants;
 import java.util.Objects;
 
 public final class ExtentReportManager {
-    private ExtentReportManager() {}
 
     private static ExtentReports extent;
     private static final ThreadLocal<ExtentTest> extentTestThreadLocal = new ThreadLocal<>();
+
+    private ExtentReportManager() {}
+
+    // --- Report Lifecycle ---
 
     public static void initReports() {
         if (Objects.isNull(extent)) {
@@ -29,6 +32,8 @@ public final class ExtentReportManager {
         }
     }
 
+    // --- ThreadLocal State Actions ---
+
     public static ExtentTest getExtentTest() {
         return extentTestThreadLocal.get();
     }
@@ -40,6 +45,8 @@ public final class ExtentReportManager {
     public static void unload() {
         extentTestThreadLocal.remove();
     }
+
+    // --- Test Node Factory ---
 
     public static void createTest(String testCaseName, String tagName, String description) {
         ExtentTest test = extent.createTest(testCaseName).assignCategory(tagName);

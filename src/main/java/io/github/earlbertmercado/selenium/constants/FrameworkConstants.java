@@ -1,6 +1,7 @@
 package io.github.earlbertmercado.selenium.constants;
 
 public final class FrameworkConstants {
+
     private FrameworkConstants() {}
 
     private static final String RESOURCES_PATH = System.getProperty("user.dir") + "/src/main/resources";
