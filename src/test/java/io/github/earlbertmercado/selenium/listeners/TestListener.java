@@ -14,6 +14,8 @@ import org.testng.ITestResult;
 import java.util.UUID;
 
 public class TestListener implements ITestListener {
+
+    private static final Logger log = LogManager.getLogger(TestListener.class);
     private static final String TRACE_ID = "traceId";
 
     // Prefixes for different operation types (all 4 letters for consistent spacing)
@@ -21,7 +23,7 @@ public class TestListener implements ITestListener {
     private static final String TEST_PREFIX = "TEST";
     private static final String FIXT_PREFIX = "FIXT";
 
-    private static final Logger log = LogManager.getLogger(TestListener.class);
+    // --- Global Suite Lifecycle Hooks ---
 
     @Override
     public void onStart(ITestContext context) {
@@ -41,6 +43,8 @@ public class TestListener implements ITestListener {
         // Clean up ThreadContext to prevent memory leaks in thread pools
         ThreadContext.clearAll();
     }
+
+    // --- Individual Test Execution Lifecycle Hooks ---
 
     @Override
     public void onTestStart(ITestResult result) {
@@ -96,7 +100,7 @@ public class TestListener implements ITestListener {
         finalizeTestContext();
     }
 
-    // --- Helper Methods ---
+    // --- Internal String and Context Helpers ---
 
     private String getClassName(ITestResult result) {
         return result.getMethod().getTestClass().getRealClass().getSimpleName();

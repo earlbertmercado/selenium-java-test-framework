@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public final class ChromeBrowser implements BrowserConfig {
+
     @Override
     public WebDriver createLocal() {
         return new ChromeDriver(new ChromeOptions().addArguments("--start-maximized"));

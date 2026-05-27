@@ -13,8 +13,12 @@ public class TestDataLoader {
     private static final String USERS_TEST_DATA = "/testdata/users.json";
     private static Map<String, TestDataUsers> users;
 
+    private TestDataLoader() {}
+
     private static synchronized void ensureLoaded() {
-        if (users != null) return;
+        if (users != null) {
+            return;
+        }
 
         ObjectMapper mapper = new ObjectMapper();
 

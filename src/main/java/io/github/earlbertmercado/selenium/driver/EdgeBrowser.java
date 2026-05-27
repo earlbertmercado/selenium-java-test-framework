@@ -6,6 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 public class EdgeBrowser implements BrowserConfig {
+
     @Override
     public WebDriver createLocal() {
         return new EdgeDriver(new EdgeOptions().addArguments("--start-maximized"));

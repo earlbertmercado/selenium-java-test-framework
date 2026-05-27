@@ -4,6 +4,7 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
 
 public final class ExtentLogger {
+
     private ExtentLogger() {}
 
     public static void pass(String message) {

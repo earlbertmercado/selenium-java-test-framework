@@ -2,18 +2,18 @@ package io.github.earlbertmercado.selenium.tests;
 
 import io.github.earlbertmercado.selenium.base.BaseTest;
 import io.github.earlbertmercado.selenium.constants.AppConstants;
-import io.github.earlbertmercado.selenium.pages.InventoryPage;
 import io.github.earlbertmercado.selenium.dataprovider.TestDataLoader;
 import io.github.earlbertmercado.selenium.dataprovider.TestDataUsers;
+import io.github.earlbertmercado.selenium.pages.InventoryPage;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class LoginTest extends BaseTest {
 
     @Test(description = "Verify successful user login routes into inventory page.")
     public void testValidLogin() {
         TestDataUsers user = TestDataLoader.getUser("standard_user");
-        InventoryPage inventoryPage = loginPage
-                .login(user.getUsername(), user.getPassword());
+        InventoryPage inventoryPage = loginPage.login(user.getUsername(), user.getPassword());
 
         assertion.assertEquals(
                 inventoryPage.getCurrentUrl(),
@@ -26,28 +26,24 @@ public class LoginTest extends BaseTest {
     public void testInvalidLoginCredentials() {
         loginPage.login("invalid_user", "invalid_password");
 
-        assertion.assertEquals(
-                loginPage.isErrorMessageVisible(),
-                true,
-                "Error message element is not visible");
+        assertion.assertTrue(loginPage.isErrorMessageVisible(), "Error message element is not visible.");
     }
 
     @Test(description = "Verify login page elements are visible.")
     public void testLoginElementsVisibility() {
-        softAssert.assertEquals(
+        SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(
                 loginPage.isUsernameInputFieldVisible(),
-                true,
-                "Username input field is not visible"
-        );
-        softAssert.assertEquals(
+                "Username input field is not visible.");
+
+        softAssert.assertTrue(
                 loginPage.isPasswordInputFieldVisible(),
-                true,
-                "Password input field is not visible"
-        );
-        softAssert.assertEquals(
+                "Password input field is not visible.");
+
+        softAssert.assertTrue(
                 loginPage.isLoginButtonVisible(),
-                true,
-                "Login button is not visible");
+                "Login button is not visible.");
 
         softAssert.assertAll();
     }
