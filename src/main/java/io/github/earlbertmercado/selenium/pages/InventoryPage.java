@@ -128,17 +128,18 @@ public class InventoryPage extends BasePage {
 
     public void removeItemFromCartByIndex(int index) {
         log.info("Removing item from cart at index: {}", index);
-        if ("Remove".equals(getElementByIndex(addToCartButtons, index).getText().trim())) {
+        if ("Remove".equals(getElementByIndex(removeToCartButtons, index).getText().trim())) {
             getElementByIndex(removeToCartButtons, index).click();
         }
     }
 
-    public void addItemsToCart(int... indices) {
+    public InventoryPage addItemsToCart(int... indices) {
         log.info("Adding multiple items to cart.");
         for (int index : indices) {
             log.debug("Adding item at index {}", index);
             addItemToCartByIndex(index);
         }
+        return this;
     }
 
     public void removeItemsFromCart(int... indices) {
@@ -149,9 +150,10 @@ public class InventoryPage extends BasePage {
         }
     }
 
-    public void addThenRemoveItems(int... indices) {
+    public InventoryPage addThenRemoveItems(int... indices) {
         addItemsToCart(indices);
         removeItemsFromCart(indices);
+        return this;
     }
 
     public void sortByNameAsc() {
