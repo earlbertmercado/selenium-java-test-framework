@@ -27,25 +27,19 @@ public class BasePage {
         this.log = LogManager.getLogger(this.getClass());
     }
 
-    // --- Page Utilities ---
-
     public String getCurrentUrl() {
         return getDriver().getCurrentUrl();
     }
-
-    // --- State Actions & Verifications ---
 
     protected boolean isVisible(By locator) {
         try {
             explicitWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             return true;
         } catch (TimeoutException e) {
-            log.warn("Element not visible within timeout: {}", locator.toString());
+            log.warn("Element not visible within timeout: {}", locator);
             return false;
         }
     }
-
-    // --- Single Element Actions ---
 
     protected void click(By locator) {
         log.info("Clicking element: {}", locator);
@@ -69,34 +63,39 @@ public class BasePage {
         new Select(element).selectByValue(value);
     }
 
-    // --- Multi-Element Actions ---
+    protected List<WebElement> waitForElements(By locator) {
+        return explicitWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
 
     protected int getElementCount(By locator) {
-        return getDriver().findElements(locator).size();
+        return waitForElements(locator).size();
     }
 
     protected WebElement getElementByIndex(By locator, int index) {
-        List<WebElement> elements = getDriver().findElements(locator);
-        if (index < 0 || index >= elements.size())
+        List<WebElement> elements = waitForElements(locator);
+
+        if (index < 0 || index >= elements.size()) {
             throw new FrameworkException("Index " + index + " out of bounds for locator: " + locator);
+        }
+
         return elements.get(index);
     }
 
     protected List<String> getTexts(By locator) {
-        return getDriver().findElements(locator).stream()
+        return waitForElements(locator)
+                .stream()
                 .map(e -> e.getText().trim())
                 .toList();
     }
 
     protected List<Double> getDoubleValues(By locator) {
-        return getDriver().findElements(locator).stream()
+        return waitForElements(locator)
+                .stream()
                 .map(e -> e.getText().replaceAll("[^0-9.]", "").trim())
                 .filter(text -> !text.isEmpty())
                 .map(Double::parseDouble)
                 .toList();
     }
-
-    // --- Internal Helpers ---
 
     protected WebDriver getDriver() {
         return DriverManager.getDriver();

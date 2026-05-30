@@ -18,15 +18,16 @@ public class LoginTest extends BaseTest {
         assertion.assertEquals(
                 inventoryPage.getCurrentUrl(),
                 AppConstants.INVENTORY_PAGE_URL,
-                "User is not routed to the inventory page."
-        );
+                "User is not routed to the inventory page.");
     }
 
     @Test(description = "Verify invalid login credentials throws error message.")
     public void testInvalidLoginCredentials() {
         loginPage.login("invalid_user", "invalid_password");
 
-        assertion.assertTrue(loginPage.isErrorMessageVisible(), "Error message element is not visible.");
+        assertion.assertTrue(
+                loginPage.isErrorMessageVisible(),
+                "Error message element is not visible.");
     }
 
     @Test(description = "Verify login page elements are visible.")
