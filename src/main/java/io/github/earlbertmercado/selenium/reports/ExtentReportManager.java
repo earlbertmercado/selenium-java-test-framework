@@ -16,7 +16,7 @@ public final class ExtentReportManager {
 
     // --- Report Lifecycle ---
 
-    public static void initReports() {
+    public static synchronized void initReports() {
         if (Objects.isNull(extent)) {
             extent = new ExtentReports();
             ExtentSparkReporter spark = new ExtentSparkReporter(FrameworkConstants.getReportOutputPath());

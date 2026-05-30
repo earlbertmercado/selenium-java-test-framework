@@ -1,6 +1,7 @@
 package io.github.earlbertmercado.selenium.pages;
 
 import io.github.earlbertmercado.selenium.driver.DriverManager;
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,7 +76,10 @@ public class BasePage {
     }
 
     protected WebElement getElementByIndex(By locator, int index) {
-        return getDriver().findElements(locator).get(index);
+        List<WebElement> elements = getDriver().findElements(locator);
+        if (index < 0 || index >= elements.size())
+            throw new FrameworkException("Index " + index + " out of bounds for locator: " + locator);
+        return elements.get(index);
     }
 
     protected List<String> getTexts(By locator) {
@@ -94,7 +98,7 @@ public class BasePage {
 
     // --- Internal Helpers ---
 
-    private WebDriver getDriver() {
+    protected WebDriver getDriver() {
         return DriverManager.getDriver();
     }
 }
