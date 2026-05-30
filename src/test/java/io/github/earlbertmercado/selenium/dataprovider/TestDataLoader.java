@@ -2,6 +2,7 @@ package io.github.earlbertmercado.selenium.dataprovider;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +30,15 @@ public class TestDataLoader {
                 users = mapper.readValue(is, new TypeReference<Map<String, TestDataUsers>>() {});
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load test data: " + USERS_TEST_DATA, e);
+            throw new FrameworkException("Failed to load test data: " + USERS_TEST_DATA, e);
         }
     }
 
     public static TestDataUsers getUser(String key) {
         ensureLoaded();
-        return users.get(key);
+        TestDataUsers user = users.get(key);
+        if (user == null) throw new FrameworkException("No test data found for key: " + key);
+        return user;
     }
 
     public static Map<String, TestDataUsers> getAllUsers() {

@@ -1,6 +1,8 @@
 package io.github.earlbertmercado.selenium.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,14 +73,16 @@ public class InventoryPage extends BasePage {
     public List<ItemInfo> getAllItemInfo() {
         List<ItemInfo> products = new ArrayList<>();
 
-        int count = getItemCount();
-
-        for (int i = 0; i < count; i++) {
+        List<WebElement> names = getDriver().findElements(itemNames);
+        List<WebElement> descriptions = getDriver().findElements(itemDescriptions);
+        List<WebElement> prices = getDriver().findElements(itemPrices);
+        List<WebElement> images = getDriver().findElements(itemImages);
+        for (int i = 0; i < names.size(); i++) {
             products.add(new ItemInfo(
-                    getItemName(i),
-                    getItemDescription(i),
-                    getItemPrice(i),
-                    getItemImageSrc(i)
+                    names.get(i).getText().trim(),
+                    descriptions.get(i).getText().trim(),
+                    prices.get(i).getText().replace("$", ""),
+                    images.get(i).getAttribute("src")
             ));
         }
 

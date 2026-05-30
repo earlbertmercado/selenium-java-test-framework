@@ -10,10 +10,12 @@ import org.apache.logging.log4j.ThreadContext;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.asserts.Assertion;
 
 import java.util.UUID;
 
+@Listeners(io.github.earlbertmercado.selenium.listeners.TestListener.class)
 public class BaseTest {
 
     protected static final Logger log = LogManager.getLogger(BaseTest.class);
