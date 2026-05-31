@@ -9,6 +9,8 @@
     <test name="Regression Automated Run">
         <classes>
             <class name="io.github.earlbertmercado.selenium.tests.LoginTest"/>
+            <class name="io.github.earlbertmercado.selenium.tests.InventoryTest"/>
+            <class name="io.github.earlbertmercado.selenium.tests.ItemDetailTest"/>
         </classes>
     </test>
 </suite>
