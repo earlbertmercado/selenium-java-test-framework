@@ -8,8 +8,15 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public final class ChromeBrowser implements BrowserConfig {
 
     @Override
-    public WebDriver createLocal() {
-        return new ChromeDriver(new ChromeOptions().addArguments("--start-maximized"));
+    public WebDriver createLocal(boolean isHeadless) {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        if (isHeadless) {
+            options.addArguments("--headless=new");
+        }
+
+        return new ChromeDriver(options);
     }
 
     @Override

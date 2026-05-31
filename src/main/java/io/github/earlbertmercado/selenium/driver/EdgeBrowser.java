@@ -5,11 +5,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
-public class EdgeBrowser implements BrowserConfig {
+public final class EdgeBrowser implements BrowserConfig {
 
     @Override
-    public WebDriver createLocal() {
-        return new EdgeDriver(new EdgeOptions().addArguments("--start-maximized"));
+    public WebDriver createLocal(boolean isHeadless) {
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--start-maximized");
+
+        if (isHeadless) {
+            options.addArguments("--headless=new");
+        }
+
+        return new EdgeDriver(options);
     }
 
     @Override
