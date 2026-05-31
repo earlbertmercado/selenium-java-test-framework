@@ -8,19 +8,17 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public final class ChromeBrowser implements BrowserConfig {
 
     @Override
-    public WebDriver createLocal(boolean isHeadless) {
+    public WebDriver createLocal(boolean isHeadless, String width, String height) {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-
+        options.addArguments(String.format("--window-size=%s,%s", width, height));
         if (isHeadless) {
             options.addArguments("--headless=new");
         }
-
         return new ChromeDriver(options);
     }
 
     @Override
-    public Capabilities getRemoteCapabilities() {
-        return new ChromeOptions();
+    public Capabilities getRemoteCapabilities(String width, String height) {
+        return new ChromeOptions().addArguments(String.format("--window-size=%s,%s", width, height));
     }
 }

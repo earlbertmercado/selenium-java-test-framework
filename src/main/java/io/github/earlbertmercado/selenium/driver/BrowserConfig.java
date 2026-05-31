@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public interface BrowserConfig {
 
-    WebDriver createLocal(boolean isHeadless);
-    Capabilities getRemoteCapabilities();
+    WebDriver createLocal(boolean isHeadless, String width, String height);
+    
+    Capabilities getRemoteCapabilities(String width, String height);
 }

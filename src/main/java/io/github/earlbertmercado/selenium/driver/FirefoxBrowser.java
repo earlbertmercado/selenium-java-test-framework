@@ -8,19 +8,23 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public final class FirefoxBrowser implements BrowserConfig {
 
     @Override
-    public WebDriver createLocal(boolean isHeadless) {
+    public WebDriver createLocal(boolean isHeadless, String width, String height) {
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments("--width=1920", "--height=1080");
-
+        options.addArguments(
+                String.format("--width=%s", width),
+                String.format("--height=%s", height)
+        );
         if (isHeadless) {
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
         }
-
         return new FirefoxDriver(options);
     }
 
     @Override
-    public Capabilities getRemoteCapabilities() {
-        return new FirefoxOptions();
+    public Capabilities getRemoteCapabilities(String width, String height) {
+        return new FirefoxOptions().addArguments(
+                String.format("--width=%s", width),
+                String.format("--height=%s", height)
+        );
     }
 }

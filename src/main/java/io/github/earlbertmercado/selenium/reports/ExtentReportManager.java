@@ -25,7 +25,7 @@ public final class ExtentReportManager {
             extent.attachReporter(spark);
 
             extent.setSystemInfo("OS", System.getProperty("os.name"));
-            extent.setSystemInfo("Browser", ConfigReader.get("browser"));
+            extent.setSystemInfo("Browser", ConfigReader.get("browser_name"));
             extent.setSystemInfo("Execution Mode", ConfigReader.get("execution_mode"));
 
             spark.config().setReportName("SauceDemo Test Suite Execution Report");
