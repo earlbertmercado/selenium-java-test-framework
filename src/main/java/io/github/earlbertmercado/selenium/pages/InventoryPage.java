@@ -133,13 +133,12 @@ public class InventoryPage extends BasePage {
         }
     }
 
-    public InventoryPage addItemsToCart(int... indices) {
+    public void addItemsToCart(int... indices) {
         log.info("Adding multiple items to cart.");
         for (int index : indices) {
             log.debug("Adding item at index {}", index);
             addItemToCartByIndex(index);
         }
-        return this;
     }
 
     public void removeItemsFromCart(int... indices) {
@@ -150,10 +149,9 @@ public class InventoryPage extends BasePage {
         }
     }
 
-    public InventoryPage addThenRemoveItems(int... indices) {
+    public void addThenRemoveItems(int... indices) {
         addItemsToCart(indices);
         removeItemsFromCart(indices);
-        return this;
     }
 
     public void sortByNameAsc() {
@@ -176,11 +174,10 @@ public class InventoryPage extends BasePage {
         selectByValue(sortDropDown, "hilo");
     }
 
-    // ------------------ Navigation Methods ------------------
+    // ------------------ Action Methods ------------------
 
-    public ItemDetailPage clickSpecificItem(By locatorString) {
+    public void clickSpecificItem(By locatorString) {
         click(locatorString);
-        return new ItemDetailPage();
     }
 
     public ItemDetailPage clickItemNameByIndex(int index) {
