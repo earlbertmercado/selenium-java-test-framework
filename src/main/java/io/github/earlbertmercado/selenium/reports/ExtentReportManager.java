@@ -3,7 +3,9 @@ package io.github.earlbertmercado.selenium.reports;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import io.github.earlbertmercado.selenium.constants.FrameworkConstants;
+import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
 import java.util.Objects;
 
@@ -21,8 +23,15 @@ public final class ExtentReportManager {
             extent = new ExtentReports();
             ExtentSparkReporter spark = new ExtentSparkReporter(FrameworkConstants.getReportOutputPath());
             extent.attachReporter(spark);
+
+            extent.setSystemInfo("OS", System.getProperty("os.name"));
+            extent.setSystemInfo("Browser", ConfigReader.get("browser"));
+            extent.setSystemInfo("Execution Mode", ConfigReader.get("execution_mode"));
+
             spark.config().setReportName("SauceDemo Test Suite Execution Report");
             spark.config().setDocumentTitle("Test Execution Automation Audit Logs");
+            spark.config().setTheme(Theme.DARK);
+            spark.config().setTimeStampFormat("yyyy-MM-dd HH:mm:ss");
         }
     }
 
