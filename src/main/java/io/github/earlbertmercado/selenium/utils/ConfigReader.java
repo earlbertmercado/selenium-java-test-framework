@@ -1,8 +1,6 @@
 package io.github.earlbertmercado.selenium.utils;
 
-import io.github.earlbertmercado.selenium.constants.FrameworkConstants;
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
