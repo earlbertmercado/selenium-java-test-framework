@@ -20,10 +20,20 @@ public final class ConfigReader {
     private ConfigReader() {}
 
     public static String get(String key) {
-        String value = properties.getProperty(key.toLowerCase().trim());
-        if (value == null) {
+        String normalizedKey = key.toLowerCase().trim();
+
+        // Priority 1: Check system properties (Maven -D args take precedence)
+        String systemValue = System.getProperty(normalizedKey);
+        if (systemValue != null && !systemValue.isEmpty()) {
+            return systemValue;
+        }
+
+        // Priority 2: Fall back to properties file
+        String fileValue = properties.getProperty(normalizedKey);
+        if (fileValue == null) {
             throw new FrameworkException("Config key returned null: " + key);
         }
-        return value;
+
+        return fileValue;
     }
 }

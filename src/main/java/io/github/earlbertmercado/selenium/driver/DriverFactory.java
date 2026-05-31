@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.Objects;
 
 public final class DriverFactory {
 
@@ -15,16 +16,20 @@ public final class DriverFactory {
 
     public static WebDriver createDriverInstance() {
         String mode = ConfigReader.get("execution_mode").toLowerCase().trim();
-        String browserName = ConfigReader.get("browser").toLowerCase().trim();
+        String browserName = ConfigReader.get("browser_name").toLowerCase().trim();
         boolean isHeadless = TypeCaster.toBoolean(ConfigReader.get("headless"));
+
+        // Retrieve values, falling back safely to standard 1080p if keys are missing/empty
+        String width = Objects.requireNonNullElse(ConfigReader.get("browser_width"), "1920").trim();
+        String height = Objects.requireNonNullElse(ConfigReader.get("browser_height"), "1080").trim();
 
         // 1. Get the right browser strategy
         BrowserConfig browser = getBrowserConfig(browserName);
 
         // 2. Execute the strategy based on mode
         return switch (mode) {
-            case "local" -> browser.createLocal(isHeadless);
-            case "remote" -> createRemoteDriver(browser);
+            case "local" -> browser.createLocal(isHeadless, width, height);
+            case "remote" -> createRemoteDriver(browser, width, height);
             default -> throw new FrameworkException("Unsupported execution mode: " + mode);
         };
     }
@@ -38,10 +43,13 @@ public final class DriverFactory {
         };
     }
 
-    private static WebDriver createRemoteDriver(BrowserConfig browser) {
+    private static WebDriver createRemoteDriver(BrowserConfig browser, String width, String height) {
         try {
             String gridUrl = ConfigReader.get("grid_url");
-            return new RemoteWebDriver(URI.create(gridUrl).toURL(), browser.getRemoteCapabilities());
+            return new RemoteWebDriver(
+                    URI.create(gridUrl).toURL(),
+                    browser.getRemoteCapabilities(width, height)
+            );
         } catch (MalformedURLException | IllegalArgumentException e) {
             throw new FrameworkException("Remote setup failed: invalid Selenium Hub URL configuration.", e);
         }
