@@ -2,6 +2,7 @@ package io.github.earlbertmercado.selenium.driver;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
+import io.github.earlbertmercado.selenium.utils.TypeCaster;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -15,13 +16,14 @@ public final class DriverFactory {
     public static WebDriver createDriverInstance() {
         String mode = ConfigReader.get("execution_mode").toLowerCase().trim();
         String browserName = ConfigReader.get("browser").toLowerCase().trim();
+        boolean isHeadless = TypeCaster.toBoolean(ConfigReader.get("headless"));
 
         // 1. Get the right browser strategy
         BrowserConfig browser = getBrowserConfig(browserName);
 
         // 2. Execute the strategy based on mode
         return switch (mode) {
-            case "local" -> browser.createLocal();
+            case "local" -> browser.createLocal(isHeadless);
             case "remote" -> createRemoteDriver(browser);
             default -> throw new FrameworkException("Unsupported execution mode: " + mode);
         };

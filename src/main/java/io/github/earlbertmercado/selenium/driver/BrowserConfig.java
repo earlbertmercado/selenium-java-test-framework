@@ -5,6 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 public interface BrowserConfig {
 
-    WebDriver createLocal();
+    WebDriver createLocal(boolean isHeadless);
     Capabilities getRemoteCapabilities();
 }

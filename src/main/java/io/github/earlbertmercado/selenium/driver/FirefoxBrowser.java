@@ -8,8 +8,15 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public final class FirefoxBrowser implements BrowserConfig {
 
     @Override
-    public WebDriver createLocal() {
-        return new FirefoxDriver(new FirefoxOptions().addArguments("--width=1920", "--height=1080"));
+    public WebDriver createLocal(boolean isHeadless) {
+        FirefoxOptions options = new FirefoxOptions();
+        options.addArguments("--width=1920", "--height=1080");
+
+        if (isHeadless) {
+            options.addArguments("--headless");
+        }
+
+        return new FirefoxDriver(options);
     }
 
     @Override
