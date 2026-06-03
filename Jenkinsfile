@@ -69,12 +69,14 @@ pipeline {
     post {
         always {
             script {
+                echo "POST BLOCK EXECUTING"
                 def reportFile = "reports/extent-report.html"
                 if (fileExists(reportFile)) {
                     emailext(
                         to: 'earlbertmercado@gmail.com',
                         subject: "Saucedemo Selenium Test Report - ${currentBuild.currentResult}",
-                        body: "The test execution is complete. Please find the report attached."
+                        body: "The test execution is complete. Please find the report attached.",
+//                         attachmentsPattern: reportFile
                     )
                 } else {
                     echo "Report file not found at: ${reportFile}"
