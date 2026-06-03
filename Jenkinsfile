@@ -74,8 +74,7 @@ pipeline {
                     emailext(
                         to: 'earlbertmercado@gmail.com',
                         subject: "Saucedemo Selenium Test Report - ${currentBuild.currentResult}",
-                        body: "The test execution is complete. Please find the report attached.",
-                        attachmentsPattern: '**/extent-report.html'
+                        body: "The test execution is complete. Please find the report attached."
                     )
                 } else {
                     echo "Report file not found at: ${reportFile}"
