@@ -74,9 +74,13 @@ pipeline {
                 if (fileExists(reportFile)) {
                     emailext(
                         to: 'earlbertmercado@gmail.com',
-                        subject: "Saucedemo Selenium Test Report - ${currentBuild.currentResult}",
-                        body: "The test execution is complete. Please find the report attached.",
-//                         attachmentsPattern: reportFile
+                        subject: "DEBUG EMAIL - ${currentBuild.currentResult}",
+                        body: """
+                        This is a pipeline email test.
+
+                        Build: ${env.BUILD_NUMBER}
+                        URL: ${env.BUILD_URL}
+                        """
                     )
                 } else {
                     echo "Report file not found at: ${reportFile}"
