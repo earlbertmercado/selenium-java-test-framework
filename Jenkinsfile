@@ -66,13 +66,28 @@ pipeline {
         }
     }
 
-post {
-    always {
-        emailext(
-            to: 'earlbertmercado@gmail.com',
-            subject: "PIPELINE EMAIL TEST - ${currentBuild.currentResult}",
-            body: "If you receive this, pipeline email works."
-        )
+    post {
+        always {
+            script {
+                echo "POST BLOCK EXECUTING"
+                def reportFile = "reports/extent-report.html"
+                if (fileExists(reportFile)) {
+                    emailext(
+                        to: 'earlbert04@gmail.com',
+                        subject: "Saucedemo Selenium Test Report - ${currentBuild.currentResult}",
+                        body: "The test execution is complete. Please find the report attached.",
+                        attachmentsPattern: reportFile
+                    )
+                } else {
+                    echo "Report file not found at: ${reportFile}"
+                }
+            }
+        }
+        success {
+            echo 'Tests executed successfully'
+        }
+        failure {
+            echo 'Build failed. Please review test reports.'
+        }
     }
-}
 }
