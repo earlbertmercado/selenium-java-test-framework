@@ -14,17 +14,17 @@ import io.github.earlbertmercado.selenium.pages.ItemDetailPage;
 
 public class ItemDetailTest extends BaseTest {
 
-        private InventoryPage inventoryPage;
-        private ItemDetailPage itemDetailPage;
+    private InventoryPage inventoryPage;
+    private ItemDetailPage itemDetailPage;
 
-        @BeforeMethod
-        public void navigateToInventoryPage() {
-            TestDataUsers user = TestDataLoader.getUser("standard_user");
-            inventoryPage = loginPage.login(user.getUsername(), user.getPassword());
-            itemDetailPage = new ItemDetailPage();
-        }
+    @BeforeMethod
+    public void navigateToInventoryPage() {
+        TestDataUsers user = TestDataLoader.getUser("standard_user");
+        inventoryPage = loginPage.login(user.getUsername(), user.getPassword());
+        itemDetailPage = new ItemDetailPage();
+    }
 
-    @Test(description= "Verify that the item detail page loads correctly with all necessary elements visible")
+    @Test(description = "Verify that the item detail page loads correctly with all necessary elements visible")
     public void testItemDetailPageLoadsCorrectly() {
         SoftAssert softAssert = new SoftAssert();
         final int FIRST_ITEM = 0;
@@ -115,8 +115,7 @@ public class ItemDetailTest extends BaseTest {
 
         assertion.assertTrue(
                 inventoryPage.getCurrentUrl().endsWith("inventory.html"),
-                "Clicking 'Back to Products' fails to return to inventory page"
-        );
+                "Clicking 'Back to Products' fails to return to inventory page");
     }
 
     @Test(description = "Verify that specific item detail page displays correct information")

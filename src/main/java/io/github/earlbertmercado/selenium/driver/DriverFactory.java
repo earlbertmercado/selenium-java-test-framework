@@ -30,8 +30,9 @@ public final class DriverFactory {
         // 2. Execute the strategy based on mode
         return switch (mode) {
             case "local" -> browser.createLocal(isHeadless, width, height);
-            case "remote" -> createRemoteDriver(browser, width, height);
-            default -> throw new FrameworkException("Unsupported execution mode: " + mode);
+            case "remote", "grid" -> createRemoteDriver(browser, width, height);
+            default -> throw new FrameworkException("Unsupported execution mode: " + mode
+                    + ". Supported values are local, remote, or grid.");
         };
     }
 
