@@ -1,8 +1,8 @@
 package io.github.earlbertmercado.selenium.pages;
 
-import io.github.earlbertmercado.selenium.driver.DriverManager;
-import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
-import io.github.earlbertmercado.selenium.utils.ConfigReader;
+import java.time.Duration;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -13,8 +13,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-import java.util.List;
+import io.github.earlbertmercado.selenium.driver.DriverManager;
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
+import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
 public class BasePage {
 
@@ -23,8 +24,9 @@ public class BasePage {
 
     protected BasePage() {
         long timeout = Long.parseLong(ConfigReader.get("timeout"));
-        this.explicitWait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout));
-        this.log = LogManager.getLogger(this.getClass());
+        WebDriver driver = DriverManager.getDriver(); // avoid overridable method call
+        this.explicitWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        this.log = LogManager.getLogger(getClass());
     }
 
     public String getCurrentUrl() {
@@ -97,7 +99,7 @@ public class BasePage {
                 .toList();
     }
 
-    protected WebDriver getDriver() {
+    protected final WebDriver getDriver() {
         return DriverManager.getDriver();
     }
 }

@@ -1,9 +1,7 @@
 package io.github.earlbertmercado.selenium.base;
 
-import io.github.earlbertmercado.selenium.driver.DriverFactory;
-import io.github.earlbertmercado.selenium.driver.DriverManager;
-import io.github.earlbertmercado.selenium.pages.LoginPage;
-import io.github.earlbertmercado.selenium.utils.ConfigReader;
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -13,7 +11,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.Assertion;
 
-import java.util.UUID;
+import io.github.earlbertmercado.selenium.driver.DriverFactory;
+import io.github.earlbertmercado.selenium.driver.DriverManager;
+import io.github.earlbertmercado.selenium.pages.LoginPage;
+import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
 @Listeners(io.github.earlbertmercado.selenium.listeners.TestListener.class)
 public class BaseTest {

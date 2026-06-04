@@ -1,14 +1,15 @@
 package io.github.earlbertmercado.selenium.tests;
 
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import io.github.earlbertmercado.selenium.base.BaseTest;
 import io.github.earlbertmercado.selenium.constants.AppConstants;
 import io.github.earlbertmercado.selenium.dataprovider.TestDataLoader;
 import io.github.earlbertmercado.selenium.dataprovider.TestDataUsers;
 import io.github.earlbertmercado.selenium.pages.InventoryPage;
 import io.github.earlbertmercado.selenium.pages.ItemDetailPage;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 public class InventoryTest extends BaseTest {
 

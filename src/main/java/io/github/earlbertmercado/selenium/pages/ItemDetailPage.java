@@ -1,7 +1,8 @@
 package io.github.earlbertmercado.selenium.pages;
 
-import io.github.earlbertmercado.selenium.constants.AppConstants;
 import org.openqa.selenium.By;
+
+import io.github.earlbertmercado.selenium.constants.AppConstants;
 
 public class ItemDetailPage extends BasePage {
 
