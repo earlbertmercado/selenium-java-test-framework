@@ -1,0 +1,32 @@
+2026-06-04 23:44:33.362 INFO  [SUIT-bf104502-b32d-46ce-b167-51527c8edcb3] - Suite execution started.
+2026-06-04 23:44:33.486 INFO  [FIXT-10bcc7da-50a4-4d0a-be74-8f670b5464bc] - Initializing driver instance...
+2026-06-04 23:44:34.375 INFO  [FIXT-10bcc7da-50a4-4d0a-be74-8f670b5464bc] - Navigating to base URL...
+2026-06-04 23:44:34.729 INFO  [FIXT-10bcc7da-50a4-4d0a-be74-8f670b5464bc] - Setup completed successfully.
+2026-06-04 23:44:34.729 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Starting test execution for: testInvalidLoginCredentials
+2026-06-04 23:44:34.738 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Test started: LoginTest/testInvalidLoginCredentials
+2026-06-04 23:44:34.765 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Entering text into element: By.id: user-name
+2026-06-04 23:44:34.868 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Entering text into element: By.id: password
+2026-06-04 23:44:34.960 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Clicking element: By.id: login-button
+2026-06-04 23:44:35.039 INFO  [TEST-fa5a6903-840c-48bd-930f-bbdac4a1f2b2] - Test passed: LoginTest/testInvalidLoginCredentials
+2026-06-04 23:44:35.040 INFO  [FIXT-cc22d771-2f13-4940-89bc-2c5874135c13] - Starting teardown process...
+2026-06-04 23:44:35.132 INFO  [FIXT-cc22d771-2f13-4940-89bc-2c5874135c13] - Driver closed and thread context cleared.
+2026-06-04 23:44:35.136 INFO  [FIXT-8d4b98c7-7efb-4553-b0fc-9ff2ba29e6ec] - Initializing driver instance...
+2026-06-04 23:44:35.714 INFO  [FIXT-8d4b98c7-7efb-4553-b0fc-9ff2ba29e6ec] - Navigating to base URL...
+2026-06-04 23:44:36.068 INFO  [FIXT-8d4b98c7-7efb-4553-b0fc-9ff2ba29e6ec] - Setup completed successfully.
+2026-06-04 23:44:36.068 INFO  [TEST-56535185-59e7-45ec-8025-f6f79832b1f3] - Starting test execution for: testLoginElementsVisibility
+2026-06-04 23:44:36.068 INFO  [TEST-56535185-59e7-45ec-8025-f6f79832b1f3] - Test started: LoginTest/testLoginElementsVisibility
+2026-06-04 23:44:36.116 INFO  [TEST-56535185-59e7-45ec-8025-f6f79832b1f3] - Test passed: LoginTest/testLoginElementsVisibility
+2026-06-04 23:44:36.116 INFO  [FIXT-9f803064-6820-466c-afaf-ab9194106cf5] - Starting teardown process...
+2026-06-04 23:44:36.199 INFO  [FIXT-9f803064-6820-466c-afaf-ab9194106cf5] - Driver closed and thread context cleared.
+2026-06-04 23:44:36.199 INFO  [FIXT-c5517c09-a9dd-473d-85a3-6ec9b550bf24] - Initializing driver instance...
+2026-06-04 23:44:36.813 INFO  [FIXT-c5517c09-a9dd-473d-85a3-6ec9b550bf24] - Navigating to base URL...
+2026-06-04 23:44:37.149 INFO  [FIXT-c5517c09-a9dd-473d-85a3-6ec9b550bf24] - Setup completed successfully.
+2026-06-04 23:44:37.149 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Starting test execution for: testValidLogin
+2026-06-04 23:44:37.149 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Test started: LoginTest/testValidLogin
+2026-06-04 23:44:37.249 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Entering text into element: By.id: user-name
+2026-06-04 23:44:37.324 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Entering text into element: By.id: password
+2026-06-04 23:44:37.380 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Clicking element: By.id: login-button
+2026-06-04 23:44:37.461 INFO  [TEST-94dca4aa-b828-4afe-8eda-5f9363dc26b4] - Test passed: LoginTest/testValidLogin
+2026-06-04 23:44:37.461 INFO  [FIXT-b272efe4-4a52-4e4d-ad6b-6dee981ddf26] - Starting teardown process...
+2026-06-04 23:44:37.572 INFO  [FIXT-b272efe4-4a52-4e4d-ad6b-6dee981ddf26] - Driver closed and thread context cleared.
+2026-06-04 23:44:37.573 INFO  [SUIT-167bfb6e-d326-44e0-958f-773d0ad87150] - Suite execution completed.
