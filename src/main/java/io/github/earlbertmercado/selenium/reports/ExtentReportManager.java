@@ -1,13 +1,14 @@
 package io.github.earlbertmercado.selenium.reports;
 
+import java.util.Objects;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+
 import io.github.earlbertmercado.selenium.constants.FrameworkConstants;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
-
-import java.util.Objects;
 
 public final class ExtentReportManager {
 

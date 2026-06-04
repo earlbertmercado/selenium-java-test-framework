@@ -1,10 +1,10 @@
 package io.github.earlbertmercado.selenium.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class InventoryPage extends BasePage {
 
@@ -248,9 +248,9 @@ public class InventoryPage extends BasePage {
 
         private static boolean isValidPrice(String v) {
             try {
-                Double.parseDouble(v.trim());
+                Double.valueOf(v.trim());
                 return true;
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 return false;
             }
         }

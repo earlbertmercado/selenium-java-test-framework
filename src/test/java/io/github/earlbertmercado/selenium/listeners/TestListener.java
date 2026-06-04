@@ -1,9 +1,7 @@
 package io.github.earlbertmercado.selenium.listeners;
 
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import io.github.earlbertmercado.selenium.reports.ExtentLogger;
-import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -11,7 +9,11 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.util.UUID;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+
+import io.github.earlbertmercado.selenium.reports.ExtentLogger;
+import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
 
 public class TestListener implements ITestListener {
 

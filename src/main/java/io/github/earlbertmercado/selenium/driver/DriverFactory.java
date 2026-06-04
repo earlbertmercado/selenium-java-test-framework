@@ -1,14 +1,15 @@
 package io.github.earlbertmercado.selenium.driver;
 
-import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
-import io.github.earlbertmercado.selenium.utils.ConfigReader;
-import io.github.earlbertmercado.selenium.utils.TypeCaster;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Objects;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
+import io.github.earlbertmercado.selenium.utils.ConfigReader;
+import io.github.earlbertmercado.selenium.utils.TypeCaster;
 
 public final class DriverFactory {
 

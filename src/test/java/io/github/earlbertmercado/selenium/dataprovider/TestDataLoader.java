@@ -1,13 +1,14 @@
 package io.github.earlbertmercado.selenium.dataprovider;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 public class TestDataLoader {
 
