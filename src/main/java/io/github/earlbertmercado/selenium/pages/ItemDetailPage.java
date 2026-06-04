@@ -56,19 +56,13 @@ public class ItemDetailPage extends BasePage {
     }
 
     public boolean isAddToCartButtonVisible() {
-        if(getText(addToCartButton).equalsIgnoreCase("Add to cart")) {
-            return isVisible(addToCartButton);
-
-        }
-        return false;
+        return isVisible(addToCartButton)
+                && getText(addToCartButton).equalsIgnoreCase("Add to cart");
     }
 
     public boolean isRemoveButtonVisible() {
-        if(getText(removeToCartButton).equalsIgnoreCase("Remove")) {
-            return isVisible(removeToCartButton);
-
-        }
-        return false;
+        return isVisible(removeToCartButton)
+                && getText(removeToCartButton).equalsIgnoreCase("Remove");
     }
 
     public boolean isBackToProductsButtonVisible() {
@@ -93,9 +87,10 @@ public class ItemDetailPage extends BasePage {
 
     public void clickRemoveButton() {
         log.info("Clicking 'Remove' button");
-        if(getText(removeToCartButton).equalsIgnoreCase("Remove")) {
+        if (isVisible(removeToCartButton)
+                && getText(removeToCartButton).equalsIgnoreCase("Remove")) {
             click(removeToCartButton);
-        }else {
+        } else {
             log.warn("'Remove' button is not visible.");
         }
     }

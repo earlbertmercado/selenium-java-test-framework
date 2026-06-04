@@ -8,13 +8,17 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 public final class ConfigReader {
 
+    private static final String CONFIG_PATH = "/config/config.properties";
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream is = ConfigReader.class.getResourceAsStream("/config/config.properties")) {
+        try (InputStream is = ConfigReader.class.getResourceAsStream(CONFIG_PATH)) {
+            if (is == null) {
+                throw new FrameworkException("Configuration resource not found at path: " + CONFIG_PATH);
+            }
             properties.load(is);
         } catch (IOException e) {
-            throw new FrameworkException("Initial configuration file setup failed at destination route.", e);
+            throw new FrameworkException("Failed to load configuration file from: " + CONFIG_PATH, e);
         }
     }
 

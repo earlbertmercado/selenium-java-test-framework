@@ -72,18 +72,20 @@ public class InventoryPage extends BasePage {
 
     public List<ItemInfo> getAllItemInfo() {
         List<ItemInfo> products = new ArrayList<>();
+        List<WebElement> productItems = waitForElements(items);
 
-        List<WebElement> names = getDriver().findElements(itemNames);
-        List<WebElement> descriptions = getDriver().findElements(itemDescriptions);
-        List<WebElement> prices = getDriver().findElements(itemPrices);
-        List<WebElement> images = getDriver().findElements(itemImages);
-        for (int i = 0; i < names.size(); i++) {
-            products.add(new ItemInfo(
-                    names.get(i).getText().trim(),
-                    descriptions.get(i).getText().trim(),
-                    prices.get(i).getText().replace("$", ""),
-                    images.get(i).getAttribute("src")
-            ));
+        if (productItems.isEmpty()) {
+            log.warn("No inventory items were visible when collecting item info.");
+            return products;
+        }
+
+        for (WebElement product : productItems) {
+            String name = product.findElement(itemNames).getText().trim();
+            String description = product.findElement(itemDescriptions).getText().trim();
+            String price = product.findElement(itemPrices).getText().replace("$", "").trim();
+            String imageSrc = product.findElement(itemImages).getAttribute("src");
+
+            products.add(new ItemInfo(name, description, price, imageSrc));
         }
 
         return products;
@@ -176,8 +178,9 @@ public class InventoryPage extends BasePage {
 
     // ------------------ Action Methods ------------------
 
-    public void clickSpecificItem(By locatorString) {
-        click(locatorString);
+    public ItemDetailPage clickSpecificItem(By itemLocator) {
+        click(itemLocator);
+        return new ItemDetailPage();
     }
 
     public ItemDetailPage clickItemNameByIndex(int index) {

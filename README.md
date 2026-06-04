@@ -21,6 +21,7 @@ The default test suite validates core flows:
 - Login
 - Inventory listing
 - Item detail
+- (other pages to follow)
 
 ## Tech Stack
 
@@ -78,8 +79,6 @@ mvn clean test -Dbrowser_name=edge -Dheadless=false
 
 ```powershell
 mvn clean test -Dtest=LoginTest
-mvn clean test -Dtest=InventoryTest
-mvn clean test -Dtest=ItemDetailTest
 ```
 
 ## Configuration (config.properties)
@@ -105,7 +104,6 @@ Notes:
 
 ```text
 selenium-java-test-framework/
-|-- assets/                                   # README images
 |-- logs/                                     # Generated Log4j2 log files from test executions
 |-- reports/                                  # Test execution reports (ExtentReports output)
 |-- src/
