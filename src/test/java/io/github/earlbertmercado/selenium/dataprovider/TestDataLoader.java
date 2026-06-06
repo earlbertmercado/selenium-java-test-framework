@@ -2,11 +2,10 @@ package io.github.earlbertmercado.selenium.dataprovider;
 
 import java.io.IOException;
 import java.io.InputStream;
-// import java.util.Collections;
-import java.util.Map;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,33 +14,15 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 public final class TestDataLoader {
 
-    private static final String TESTDATA_DIR_KEY = "testdata.dir";
-    private static final String DEFAULT_TESTDATA_DIR = "testdata";
-    private static final String ENV_KEY = "env";
-    private static final String DEFAULT_ENV = "test";
-    private static final String USERS_FILE = "users.json";
-
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final TypeReference<Map<String, TestDataUsers>> USERS_TYPE = new TypeReference<>() {};
+
+    private static final String TESTDATA_DIR = System.getProperty("testdata.dir", "testdata").trim();
+    private static final String ENV = System.getProperty("env", "test").trim().toLowerCase();
+
     private static Map<String, TestDataUsers> users;
 
     private TestDataLoader() {}
-
-    private static synchronized void ensureUsersLoaded() {
-        if (users != null) {
-            return;
-        }
-
-        Path usersPath = resolveTestDataPath(USERS_FILE);
-        if (!Files.exists(usersPath)) {
-            throw new FrameworkException("Test data file not found: " + usersPath);
-        }
-
-        try (InputStream is = Files.newInputStream(usersPath)) {
-            users = MAPPER.readValue(is, new TypeReference<Map<String, TestDataUsers>>() {});
-        } catch (IOException e) {
-            throw new FrameworkException("Failed to load users test data from: " + usersPath, e);
-        }
-    }
 
     public static TestDataUsers getUser(String key) {
         ensureUsersLoaded();
@@ -52,18 +33,28 @@ public final class TestDataLoader {
         return user;
     }
 
-    // public static Map<String, TestDataUsers> getAllUsers() {
-    //     ensureUsersLoaded();
-    //     return Collections.unmodifiableMap(users);
-    // }
+    private static synchronized void ensureUsersLoaded() {
+        if (users != null) return;
+        users = loadJsonFile("users.json", USERS_TYPE);
+    }
+
+    private static <T> T loadJsonFile(String fileName, TypeReference<T> type) {
+        Path path = resolveTestDataPath(fileName);
+        if (!Files.exists(path)) {
+            throw new FrameworkException("Test data file not found: " + path);
+        }
+        try (InputStream is = Files.newInputStream(path)) {
+            return MAPPER.readValue(is, type);
+        } catch (IOException e) {
+            throw new FrameworkException("Failed to load test data from: " + path, e);
+        }
+    }
 
     private static Path resolveTestDataPath(String fileName) {
-        String testDataDir = System.getProperty(TESTDATA_DIR_KEY, DEFAULT_TESTDATA_DIR).trim();
-        String env = System.getProperty(ENV_KEY, DEFAULT_ENV).trim().toLowerCase();
-        Path configuredPath = Paths.get(testDataDir);
-        if (!configuredPath.isAbsolute()) {
-            configuredPath = Paths.get(System.getProperty("user.dir"), testDataDir);
+        Path base = Paths.get(TESTDATA_DIR);
+        if (!base.isAbsolute()) {
+            base = Paths.get(System.getProperty("user.dir"), TESTDATA_DIR);
         }
-        return configuredPath.resolve(env).resolve(fileName).normalize();
+        return base.resolve(ENV).resolve(fileName).normalize();
     }
 }

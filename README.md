@@ -131,11 +131,6 @@ Supported keys:
 - grid_url
 - timeout
 
-Secrets and credentials:
-- Do not store secrets in source-controlled properties/json files.
-- Use reference keys like `app_username_ref=SAUCE_USERNAME`.
-- At runtime, provide `SAUCE_USERNAME` and `SAUCE_PASSWORD` via environment variables or Maven `-D` system properties.
-
 ## Project Structure
 
 ```text
@@ -249,3 +244,4 @@ Grid URL default:
 ## Roadmap / Future Improvements
 
 - Add GitHub Actions pipeline in addition to Jenkins
+- Add parameters for multiple envs in Jenkinsfile
