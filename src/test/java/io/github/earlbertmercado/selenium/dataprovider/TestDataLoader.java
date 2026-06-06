@@ -2,7 +2,9 @@ package io.github.earlbertmercado.selenium.dataprovider;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,40 +12,49 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
-public class TestDataLoader {
+public final class TestDataLoader {
 
-    private static final String USERS_TEST_DATA = "/testdata/users.json";
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final TypeReference<Map<String, TestDataUsers>> USERS_TYPE = new TypeReference<>() {};
+
+    private static final String TESTDATA_DIR = System.getProperty("testdata.dir", "testdata").trim();
+    private static final String ENV = System.getProperty("env", "test").trim().toLowerCase();
+
     private static Map<String, TestDataUsers> users;
 
     private TestDataLoader() {}
 
-    private static synchronized void ensureLoaded() {
-        if (users != null) {
-            return;
-        }
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try (InputStream is = TestDataLoader.class.getResourceAsStream(USERS_TEST_DATA)) {
-            if (is == null) {
-                users = Collections.emptyMap();
-            } else {
-                users = mapper.readValue(is, new TypeReference<Map<String, TestDataUsers>>() {});
-            }
-        } catch (IOException e) {
-            throw new FrameworkException("Failed to load test data: " + USERS_TEST_DATA, e);
-        }
-    }
-
     public static TestDataUsers getUser(String key) {
-        ensureLoaded();
+        ensureUsersLoaded();
         TestDataUsers user = users.get(key);
-        if (user == null) throw new FrameworkException("No test data found for key: " + key);
+        if (user == null) {
+            throw new FrameworkException("No test data found for key: " + key);
+        }
         return user;
     }
 
-    public static Map<String, TestDataUsers> getAllUsers() {
-        ensureLoaded();
-        return Collections.unmodifiableMap(users);
+    private static synchronized void ensureUsersLoaded() {
+        if (users != null) return;
+        users = loadJsonFile("users.json", USERS_TYPE);
+    }
+
+    private static <T> T loadJsonFile(String fileName, TypeReference<T> type) {
+        Path path = resolveTestDataPath(fileName);
+        if (!Files.exists(path)) {
+            throw new FrameworkException("Test data file not found: " + path);
+        }
+        try (InputStream is = Files.newInputStream(path)) {
+            return MAPPER.readValue(is, type);
+        } catch (IOException e) {
+            throw new FrameworkException("Failed to load test data from: " + path, e);
+        }
+    }
+
+    private static Path resolveTestDataPath(String fileName) {
+        Path base = Paths.get(TESTDATA_DIR);
+        if (!base.isAbsolute()) {
+            base = Paths.get(System.getProperty("user.dir"), TESTDATA_DIR);
+        }
+        return base.resolve(ENV).resolve(fileName).normalize();
     }
 }
