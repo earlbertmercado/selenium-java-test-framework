@@ -15,7 +15,7 @@ public class InventoryTest extends BaseTest {
 
     private InventoryPage inventoryPage;
 
-    @BeforeMethod
+    @BeforeMethod(dependsOnMethods = "setUp")
     public void navigateToInventoryPage() {
         TestDataUsers user = TestDataLoader.getUser("standard_user");
         inventoryPage = loginPage.login(user.getUsername(), user.getPassword());

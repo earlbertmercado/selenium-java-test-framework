@@ -81,6 +81,12 @@ mvn clean test -Dbrowser_name=edge -Dheadless=false
 mvn clean test -Dtest=LoginTest
 ```
 
+### Parallel execution
+
+```powershell
+mvn clean test -Dtest=LoginTest -Dparallel=methods -DthreadCount=4
+```
+
 ## Configuration (config.properties)
 
 Main runtime configuration file:
@@ -142,9 +148,11 @@ Generated artifacts:
 The Jenkins pipeline:
 - Uses JDK21 and Maven3 tools
 - Supports parameters:
-  - BROWSER (CHROME, EDGE, FIREFOX)
+  - BROWSER (Chrome, Edge, Firefox)
   - HEADLESS (true, false)
-  - TEST_CLASS (All Tests, InventoryTest, ItemDetailTest, LoginTest)
+  - PAGE (All, Inventory, ItemDetail, Login)
+  - TEST_EXECUTION (Sequential, Parallel-Methods, Parallel-Classes, Parallel-Tests)
+  - THREAD_COUNT (2–12, used for parallel execution)
 - Runs build and tests via Maven
 - Attaches the Extent report email if available
 
@@ -199,6 +207,6 @@ Grid URL default:
 
 ## Roadmap / Future Improvements
 
-- Add parallel execution profiles for local and grid runs
 - Add environment-based configuration (dev/stage/prod)
 - Add GitHub Actions pipeline in addition to Jenkins
+- Externalize test data
