@@ -13,25 +13,42 @@ pipeline {
     parameters {
         choice(
             name: 'BROWSER',
-            choices: ['CHROME','EDGE','FIREFOX'],
+            choices: ['Chrome','Edge','Firefox'],
             description: 'Select browser to run tests'
         )
 
-        choice(
+        booleanParam(
             name: 'HEADLESS',
-            choices: ['true','false'],
-            description: 'Enable or disable headless execution'
+            defaultValue: false,
+            description: 'Enable or disable headless mode'
         )
 
         choice(
-            name: 'TEST_CLASS',
+            name: 'PAGE',
             choices: [
-                'All Tests',
-                'InventoryTest',
-                'ItemDetailTest',
-                'LoginTest'
+                'All',
+                'Inventory',
+                'ItemDetail',
+                'Login'
             ],
-            description: 'Select which test class to execute'
+            description: 'Select which page to test'
+        )
+
+        choice(
+            name: 'TEST_EXECUTION',
+            choices: [
+                'Sequential',
+                'Parallel-Methods',
+                'Parallel-Classes',
+                'Parallel-Tests'
+            ],
+            description: 'Select test execution mode'
+        )
+
+        choice(
+            name: 'THREAD_COUNT',
+            choices: ['2','3','4','5','6','7','8','9','10','11','12'],
+            description: 'Number of threads for parallel execution (ignored if SEQUENTIAL)'
         )
     }
 
@@ -51,9 +68,24 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    def mvnCmd = "mvn clean test -Dbrowser_name=${params.BROWSER} -Dheadless=${params.HEADLESS}"
-                    if (params.TEST_CLASS != 'All Tests') {
-                        mvnCmd = "${mvnCmd} -Dtest=${params.TEST_CLASS}"
+                    def parallelMode = [
+                        'Sequential'        : 'none',
+                        'Parallel-Methods'  : 'methods',
+                        'Parallel-Classes'  : 'classes',
+                        'Parallel-Tests'    : 'tests'
+                    ]
+
+                    def mvnCmd = "mvn test" +
+                                " -Dbrowser_name=${params.BROWSER}" +
+                                " -Dheadless=${params.HEADLESS}" +
+                                " -Dparallel=${parallelMode[params.TEST_EXECUTION]}"
+
+                    if (params.TEST_EXECUTION != 'Sequential') {
+                        mvnCmd += " -DthreadCount=${params.THREAD_COUNT}"
+                    }
+
+                    if (params.PAGE != 'All') {
+                        mvnCmd = "${mvnCmd} -Dtest=${params.PAGE}Test"
                     }
 
                     if (isUnix()) {

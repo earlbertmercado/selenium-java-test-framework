@@ -75,18 +75,53 @@ mvn clean test
 mvn clean test -Dbrowser_name=edge -Dheadless=false
 ```
 
+### Run by environment
+
+```powershell
+mvn clean test -Denv=test
+mvn clean test -Denv=stage
+mvn clean test -Denv=prod
+```
+
+### Override test data directory
+
+```powershell
+mvn clean test -Dtestdata.dir=C:/ci-data/ui-tests
+```
+
+Expected structure when using `testdata.dir`:
+- Required for `-Denv=test`: `<testdata.dir>/test/users.json`
+- Required for `-Denv=stage`: `<testdata.dir>/stage/users.json`
+- Required for `-Denv=prod`: `<testdata.dir>/prod/users.json`
+
 ### Run a single test class
 
 ```powershell
 mvn clean test -Dtest=LoginTest
 ```
 
-## Configuration (config.properties)
+### Parallel execution
 
-Main runtime configuration file:
-- src/main/resources/config/config.properties
+```powershell
+mvn clean test -Dtest=LoginTest -Dparallel=methods -DthreadCount=4
+```
 
-Current keys:
+## Configuration (Environment-based)
+
+Runtime configuration load order:
+1. Classpath defaults (versioned with code)
+  - src/main/resources/config/test.properties
+  - src/main/resources/config/stage.properties
+  - src/main/resources/config/prod.properties
+2. System properties (`-Dkey=value`) override file values
+
+How environment selection works:
+- Use `-Denv=test|stage|prod` (default is `test`).
+- Test data is loaded from `testdata/<env>/users.json`.
+- Use `-Dtestdata.dir=<path>` to override the test data root.
+- You can override any key with `-D<key>=<value>`.
+
+Supported keys:
 - base_url
 - browser_name
 - browser_width
@@ -96,16 +131,17 @@ Current keys:
 - grid_url
 - timeout
 
-Notes:
-- Use local browser execution with execution_mode=local.
-- Use Selenium Grid with execution_mode=grid and a reachable grid_url.
-
 ## Project Structure
 
 ```text
 selenium-java-test-framework/
 |-- logs/                                     # Generated Log4j2 log files from test executions
 |-- reports/                                  # Test execution reports (ExtentReports output)
+|-- testdata/                                 # Externalized environment-specific test data
+|   |-- test/
+|   |   `-- users.json
+|   |-- stage/
+|   `-- prod/
 |-- src/
 |   |-- main/
 |   |   |-- java/io/github/earlbertmercado/selenium/
@@ -115,14 +151,16 @@ selenium-java-test-framework/
 |   |   |   |-- pages/                        # Page Object classes
 |   |   |   |-- reports/                      # Reporting helpers/listeners
 |   |   |   `-- utils/                        # Config reader, waits, utilities
-|   |   `-- resources/                        # Global properties and Log4j2 config
+|   |   `-- resources/
+|   |       |-- config/                       # Baseline environment defaults (test/stage/prod)
+|   |       `-- log4j2.xml
 |   `-- test/
 |       |-- java/io/github/earlbertmercado/selenium/
 |       |   |-- base/                         # Base Test class (Setup/Teardown)
 |       |   |-- dataprovider/                 # Test data providers
 |       |   |-- listeners/                    # TestNG listeners
 |       |   `-- tests/                        # Functional test classes
-|       `-- resources/                        # Test runner (testng.xml) and test data
+|       `-- resources/                        # Test runner (testng.xml)
 |-- Jenkinsfile                               # CI/CD pipeline definition
 |-- docker-compose.yaml                       # Selenium Grid infrastructure
 `-- pom.xml                                   # Project dependencies and build config
@@ -142,9 +180,11 @@ Generated artifacts:
 The Jenkins pipeline:
 - Uses JDK21 and Maven3 tools
 - Supports parameters:
-  - BROWSER (CHROME, EDGE, FIREFOX)
+  - BROWSER (Chrome, Edge, Firefox)
   - HEADLESS (true, false)
-  - TEST_CLASS (All Tests, InventoryTest, ItemDetailTest, LoginTest)
+  - PAGE (All, Inventory, ItemDetail, Login)
+  - TEST_EXECUTION (Sequential, Parallel-Methods, Parallel-Classes, Parallel-Tests)
+  - THREAD_COUNT (2–12, used for parallel execution)
 - Runs build and tests via Maven
 - Attaches the Extent report email if available
 
@@ -182,12 +222,16 @@ Grid URL default:
 ## Troubleshooting
 
 - Tests not launching browser:
-  - Confirm browser_name in config.properties.
+  - Confirm browser_name in the active environment config file under src/main/resources/config/ (test.properties, stage.properties, or prod.properties).
   - Ensure local browser is installed for local mode.
 
 - Grid run failures:
   - Ensure Docker Desktop is running.
   - Verify grid_url and that hub is reachable.
+
+- Test data file not found:
+  - Ensure `users.json` exists under `testdata/<env>/` for the selected environment.
+  - Example: for `-Denv=stage`, create `testdata/stage/users.json`.
 
 - No report generated:
   - Check test execution did not fail before listener/report hooks.
@@ -199,6 +243,5 @@ Grid URL default:
 
 ## Roadmap / Future Improvements
 
-- Add parallel execution profiles for local and grid runs
-- Add environment-based configuration (dev/stage/prod)
 - Add GitHub Actions pipeline in addition to Jenkins
+- Add parameters for multiple envs in Jenkinsfile

@@ -19,14 +19,16 @@ import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
 public class BasePage {
 
-    protected final WebDriverWait explicitWait;
     protected final Logger log;
+    private final long timeout;
 
     protected BasePage() {
-        long timeout = Long.parseLong(ConfigReader.get("timeout"));
-        WebDriver driver = DriverManager.getDriver(); // avoid overridable method call
-        this.explicitWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        this.timeout = Long.parseLong(ConfigReader.get("timeout"));
         this.log = LogManager.getLogger(getClass());
+    }
+
+    protected WebDriverWait getWait() {
+        return new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeout));
     }
 
     public String getCurrentUrl() {
@@ -35,7 +37,7 @@ public class BasePage {
 
     protected boolean isVisible(By locator) {
         try {
-            explicitWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
             return true;
         } catch (TimeoutException e) {
             log.warn("Element not visible within timeout: {}", locator);
@@ -45,28 +47,28 @@ public class BasePage {
 
     protected void click(By locator) {
         log.info("Clicking element: {}", locator);
-        explicitWait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
     protected void sendKeys(By locator, String value) {
         log.info("Entering text into element: {}", locator);
-        WebElement element = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        WebElement element = getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         element.clear();
         element.sendKeys(value);
     }
 
     protected String getText(By locator) {
-        return explicitWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+        return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
     }
 
     protected void selectByValue(By locator, String value) {
         log.info("Selecting value '{}' from dropdown: {}", value, locator);
-        WebElement element = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        WebElement element = getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         new Select(element).selectByValue(value);
     }
 
     protected List<WebElement> waitForElements(By locator) {
-        return explicitWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+        return getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     protected int getElementCount(By locator) {
