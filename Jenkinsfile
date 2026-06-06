@@ -75,11 +75,14 @@ pipeline {
                         'Parallel-Tests'    : 'tests'
                     ]
 
-                    def mvnCmd = "mvn clean test" +
-                                 " -Dbrowser_name=${params.BROWSER}" +
-                                 " -Dheadless=${params.HEADLESS}" +
-                                 " -Dparallel=${parallelMode[params.TEST_EXECUTION]}" +
-                                 " -DthreadCount=${params.THREAD_COUNT}"
+                    def mvnCmd = "mvn test" +
+                                " -Dbrowser_name=${params.BROWSER}" +
+                                " -Dheadless=${params.HEADLESS}" +
+                                " -Dparallel=${parallelMode[params.TEST_EXECUTION]}"
+
+                    if (params.TEST_EXECUTION != 'Sequential') {
+                        mvnCmd += " -DthreadCount=${params.THREAD_COUNT}"
+                    }
 
                     if (params.PAGE != 'All') {
                         mvnCmd = "${mvnCmd} -Dtest=${params.PAGE}Test"
