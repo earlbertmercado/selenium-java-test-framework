@@ -11,15 +11,18 @@ import io.github.earlbertmercado.selenium.dataprovider.TestDataLoader;
 import io.github.earlbertmercado.selenium.dataprovider.TestDataUsers;
 import io.github.earlbertmercado.selenium.pages.InventoryPage;
 import io.github.earlbertmercado.selenium.pages.ItemDetailPage;
+import io.github.earlbertmercado.selenium.pages.LoginPage;
 
 public class ItemDetailTest extends BaseTest {
 
     private InventoryPage inventoryPage;
     private ItemDetailPage itemDetailPage;
+    protected LoginPage loginPage;
 
     @BeforeMethod(dependsOnMethods = "setUp")
     public void navigateToInventoryPage() {
         TestDataUsers user = TestDataLoader.getUser("standard_user");
+        loginPage = new LoginPage();
         inventoryPage = loginPage.login(user.getUsername(), user.getPassword());
         itemDetailPage = new ItemDetailPage();
     }
