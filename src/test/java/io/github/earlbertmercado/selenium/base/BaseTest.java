@@ -13,7 +13,6 @@ import org.testng.asserts.Assertion;
 
 import io.github.earlbertmercado.selenium.driver.DriverFactory;
 import io.github.earlbertmercado.selenium.driver.DriverManager;
-import io.github.earlbertmercado.selenium.pages.LoginPage;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
 @Listeners(io.github.earlbertmercado.selenium.listeners.TestListener.class)
@@ -24,7 +23,6 @@ public class BaseTest {
     private static final String FIXT_PREFIX = "FIXT";
 
     protected Assertion assertion;
-    protected LoginPage loginPage;
 
     protected BaseTest() {}
 
@@ -42,8 +40,6 @@ public class BaseTest {
 
         log.info("Navigating to base URL...");
         DriverManager.getDriver().get(ConfigReader.get("base_url"));
-
-        loginPage = new LoginPage();
 
         log.info("Setup completed successfully.");
     }
