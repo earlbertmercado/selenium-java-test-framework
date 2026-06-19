@@ -10,19 +10,6 @@ import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
 public class InventoryPage extends BasePage {
 
-    // private final By inventoryTitle         = By.className("title");
-    // private final By burgerMenu             = By.id("react-burger-menu-btn");
-    // private final By shoppingCart           = By.className("shopping_cart_link");
-    // private final By sortDropDown           = By.className("product_sort_container");
-    // private final By items                  = By.cssSelector(".inventory_item");
-    // private final By itemNames              = By.cssSelector(".inventory_item_name");
-    // private final By itemDescriptions       = By.cssSelector(".inventory_item_desc");
-    // private final By itemPrices             = By.cssSelector(".inventory_item_price");
-    // private final By itemImages             = By.cssSelector(".inventory_item_img img");
-    // private final By addToCartButtons       = By.cssSelector(".btn_inventory");
-    // private final By removeToCartButtons    = By.cssSelector(".btn_inventory");
-    // private final By shoppingCartBadge      = By.className("shopping_cart_badge");
-
     private final By inventoryTitle         = LocatorRepository.get("inventory.title");
     private final By burgerMenu             = LocatorRepository.get("inventory.burger_menu");
     private final By shoppingCart           = LocatorRepository.get("inventory.shopping_cart");
