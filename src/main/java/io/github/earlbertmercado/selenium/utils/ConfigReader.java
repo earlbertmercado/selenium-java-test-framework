@@ -14,7 +14,7 @@ public final class ConfigReader {
 
     static {
         String env = getCurrentEnvironment();
-        String path = "/config/%s.properties".formatted(env);
+        String path = "/config/config-%s.properties".formatted(env);
         try (InputStream stream = ConfigReader.class.getResourceAsStream(path)) {
             if (stream == null) {
                 throw new FrameworkException("No configuration found for env='" + env + "' at: " + path);

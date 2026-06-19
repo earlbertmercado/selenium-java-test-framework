@@ -3,17 +3,18 @@ package io.github.earlbertmercado.selenium.pages;
 import org.openqa.selenium.By;
 
 import io.github.earlbertmercado.selenium.constants.AppConstants;
+import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
 public class ItemDetailPage extends BasePage {
-
-    private final By itemName               = By.cssSelector(".inventory_details_name");
-    private final By itemDescription        = By.cssSelector(".inventory_details_desc");
-    private final By itemPrice              = By.cssSelector(".inventory_details_price");
-    private final By itemImage              = By.cssSelector(".inventory_details_img");
-    private final By backToProductsButton   = By.cssSelector(".inventory_details_back_button");
-    private final By addToCartButton        = By.cssSelector(".btn_inventory");
-    private final By removeToCartButton     = By.cssSelector(".btn_inventory");
-    private final By shoppingCartBadge      = By.className("shopping_cart_badge");
+    
+    private final By itemName               = LocatorRepository.get("item_detail.name");
+    private final By itemDescription        = LocatorRepository.get("item_detail.description");
+    private final By itemPrice              = LocatorRepository.get("item_detail.price");
+    private final By itemImage              = LocatorRepository.get("item_detail.image");
+    private final By backToProductsButton   = LocatorRepository.get("item_detail.back");
+    private final By addToCartButton        = LocatorRepository.get("item_detail.add_to_cart");
+    private final By removeToCartButton     = LocatorRepository.get("item_detail.remove");
+    private final By shoppingCartBadge      = LocatorRepository.get("item_detail.cart_badge");
 
     public boolean isRedirectedToItemDetailPage() {
         String currentUrl = getCurrentUrl();
