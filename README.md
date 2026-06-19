@@ -137,11 +137,6 @@ Supported keys:
 selenium-java-test-framework/
 |-- logs/                                     # Generated Log4j2 log files from test executions
 |-- reports/                                  # Test execution reports (ExtentReports output)
-|-- testdata/                                 # Externalized environment-specific test data
-|   |-- test/
-|   |   `-- users.json
-|   |-- stage/
-|   `-- prod/
 |-- src/
 |   |-- main/
 |   |   |-- java/io/github/earlbertmercado/selenium/
@@ -153,6 +148,7 @@ selenium-java-test-framework/
 |   |   |   `-- utils/                        # Config reader, waits, utilities
 |   |   `-- resources/
 |   |       |-- config/                       # Baseline environment defaults (test/stage/prod)
+|   |       |-- locators/                     # Locator files: locator-<env>.properties
 |   |       `-- log4j2.xml
 |   `-- test/
 |       |-- java/io/github/earlbertmercado/selenium/
@@ -161,6 +157,11 @@ selenium-java-test-framework/
 |       |   |-- listeners/                    # TestNG listeners
 |       |   `-- tests/                        # Functional test classes
 |       `-- resources/                        # Test runner (testng.xml)
+|-- testdata/                                 # Externalized environment-specific test data
+|   |-- test/
+|   |   `-- users.json
+|   |-- stage/
+|   `-- prod/
 |-- Jenkinsfile                               # CI/CD pipeline definition
 |-- docker-compose.yaml                       # Selenium Grid infrastructure
 `-- pom.xml                                   # Project dependencies and build config
@@ -222,7 +223,7 @@ Grid URL default:
 ## Troubleshooting
 
 - Tests not launching browser:
-  - Confirm browser_name in the active environment config file under src/main/resources/config/ (test.properties, stage.properties, or prod.properties).
+  - Confirm browser_name in the active environment config file under src/main/resources/config/ (config-{env}.properties).
   - Ensure local browser is installed for local mode.
 
 - Grid run failures:
@@ -245,3 +246,4 @@ Grid URL default:
 
 - Add GitHub Actions pipeline in addition to Jenkins
 - Add parameters for multiple envs in Jenkinsfile
+- Add classes and tests for other pages
