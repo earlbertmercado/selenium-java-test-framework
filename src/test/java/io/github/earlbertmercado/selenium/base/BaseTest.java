@@ -38,6 +38,8 @@ public class BaseTest {
         WebDriver driver = DriverFactory.createDriverInstance();
         DriverManager.setDriver(driver);
 
+        DriverManager.getDriver().manage().deleteAllCookies();
+
         log.info("Navigating to base URL...");
         DriverManager.getDriver().get(ConfigReader.get("base_url"));
 
@@ -53,6 +55,7 @@ public class BaseTest {
             log.info("Starting teardown process...");
 
             if (DriverManager.getDriver() != null) {
+                DriverManager.getDriver().manage().deleteAllCookies();
                 DriverManager.getDriver().quit();
                 DriverManager.unload();
                 log.info("Driver closed and thread context cleared.");

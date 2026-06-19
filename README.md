@@ -110,9 +110,9 @@ mvn clean test -Dtest=LoginTest -Dparallel=methods -DthreadCount=4
 
 Runtime configuration load order:
 1. Classpath defaults (versioned with code)
-  - src/main/resources/config/test.properties
-  - src/main/resources/config/stage.properties
-  - src/main/resources/config/prod.properties
+  - src/main/resources/config/config-test.properties
+  - src/main/resources/config/config-stage.properties
+  - src/main/resources/config/config-prod.properties
 2. System properties (`-Dkey=value`) override file values
 
 How environment selection works:

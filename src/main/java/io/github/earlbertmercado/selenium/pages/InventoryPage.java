@@ -6,20 +6,35 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import io.github.earlbertmercado.selenium.utils.LocatorRepository;
+
 public class InventoryPage extends BasePage {
 
-    private final By inventoryTitle         = By.className("title");
-    private final By burgerMenu             = By.id("react-burger-menu-btn");
-    private final By shoppingCart           = By.className("shopping_cart_link");
-    private final By sortDropDown           = By.className("product_sort_container");
-    private final By items                  = By.cssSelector(".inventory_item");
-    private final By itemNames              = By.cssSelector(".inventory_item_name");
-    private final By itemDescriptions       = By.cssSelector(".inventory_item_desc");
-    private final By itemPrices             = By.cssSelector(".inventory_item_price");
-    private final By itemImages             = By.cssSelector(".inventory_item_img img");
-    private final By addToCartButtons       = By.cssSelector(".btn_inventory");
-    private final By removeToCartButtons    = By.cssSelector(".btn_inventory");
-    private final By shoppingCartBadge      = By.className("shopping_cart_badge");
+    // private final By inventoryTitle         = By.className("title");
+    // private final By burgerMenu             = By.id("react-burger-menu-btn");
+    // private final By shoppingCart           = By.className("shopping_cart_link");
+    // private final By sortDropDown           = By.className("product_sort_container");
+    // private final By items                  = By.cssSelector(".inventory_item");
+    // private final By itemNames              = By.cssSelector(".inventory_item_name");
+    // private final By itemDescriptions       = By.cssSelector(".inventory_item_desc");
+    // private final By itemPrices             = By.cssSelector(".inventory_item_price");
+    // private final By itemImages             = By.cssSelector(".inventory_item_img img");
+    // private final By addToCartButtons       = By.cssSelector(".btn_inventory");
+    // private final By removeToCartButtons    = By.cssSelector(".btn_inventory");
+    // private final By shoppingCartBadge      = By.className("shopping_cart_badge");
+
+    private final By inventoryTitle         = LocatorRepository.get("inventory.title");
+    private final By burgerMenu             = LocatorRepository.get("inventory.burger_menu");
+    private final By shoppingCart           = LocatorRepository.get("inventory.shopping_cart");
+    private final By sortDropDown           = LocatorRepository.get("inventory.sort_dropdown");
+    private final By items                  = LocatorRepository.get("inventory.all_items");
+    private final By itemNames              = LocatorRepository.get("inventory.all_item_names");
+    private final By itemDescriptions       = LocatorRepository.get("inventory.all_item_description");
+    private final By itemPrices             = LocatorRepository.get("inventory.all_item_price");
+    private final By itemImages             = LocatorRepository.get("inventory.all_item_image");
+    private final By addToCartButtons       = LocatorRepository.get("inventory.all_add_to_cart_buttons");
+    private final By removeToCartButtons    = LocatorRepository.get("inventory.all_remove_to_cart_buttons");
+    private final By shoppingCartBadge      = LocatorRepository.get("inventory.cart_badge");
 
     // ------------------ Getter Methods ------------------
 
