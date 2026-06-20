@@ -15,12 +15,18 @@ import com.aventstack.extentreports.Status;
 import io.github.earlbertmercado.selenium.reports.ExtentLogger;
 import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
 
-public class TestListener implements ITestListener {
+/*
+ * TestNG listener that bridges suite/test lifecycle events into both the
+ * Log4j2 trace-id context (for log correlation across threads) and the
+ * ExtentReports test log.
+ */
+public final class TestListener implements ITestListener {
 
     private static final Logger log = LogManager.getLogger(TestListener.class);
     private static final String TRACE_ID = "traceId";
 
     // Prefixes for different operation types (all 4 letters for consistent spacing)
+    // SUIT = Suite, TEST = Test, FIXT = Fixture (setup/teardown)
     private static final String SUIT_PREFIX = "SUIT";
     private static final String TEST_PREFIX = "TEST";
     private static final String FIXT_PREFIX = "FIXT";
@@ -29,16 +35,14 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID();
-        ThreadContext.put(TRACE_ID, traceId);
+        newTraceId(SUIT_PREFIX);
         log.info("Suite execution started.");
         ExtentReportManager.initReports();
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        String traceId = SUIT_PREFIX + "-" + UUID.randomUUID();
-        ThreadContext.put(TRACE_ID, traceId);
+        newTraceId(SUIT_PREFIX);
         log.info("Suite execution completed.");
         ExtentReportManager.flushReports();
 
@@ -50,26 +54,31 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        // Generate a unique ID with TEST prefix for the current test thread
-        String traceId = TEST_PREFIX + "-" + UUID.randomUUID();
-        ThreadContext.put(TRACE_ID, traceId);
-
+        String traceId = newTraceId(TEST_PREFIX);
         log.info("Starting test execution for: {}", result.getName());
 
-        // Extract description from @Test annotation
         String testDescription = result.getMethod().getDescription();
-
         ExtentReportManager.createTest(getMethodName(result), getClassName(result), testDescription);
-        ExtentReportManager.getExtentTest().log(Status.INFO, "Trace ID: " + traceId);
+
+        ExtentTest currentTest = ExtentReportManager.getExtentTest();
+        if (currentTest != null) {
+            currentTest.log(Status.INFO, "Trace ID: " + traceId);
+        }
 
         log.info("Test started: {}", getTestIdentifier(result));
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentReportManager.getExtentTest().log(Status.PASS, "Test Passed: " + getMethodName(result));
         log.info("Test passed: {}", getTestIdentifier(result));
-        ExtentLogger.pass("All assertions passed successfully.");
+
+        ExtentTest currentTest = ExtentReportManager.getExtentTest();
+        if (currentTest == null) {
+            log.warn("No ExtentTest found for {}; skipping report logging.", getTestIdentifier(result));
+        } else {
+            currentTest.log(Status.PASS, "Test Passed: " + getMethodName(result));
+            safely(() -> ExtentLogger.pass("All assertions passed successfully."));
+        }
 
         finalizeTestContext();
     }
@@ -79,14 +88,18 @@ public class TestListener implements ITestListener {
         log.error("Test failed: {}", getTestIdentifier(result));
 
         ExtentTest currentTest = ExtentReportManager.getExtentTest();
-        currentTest.log(Status.FAIL, "Test failed: " + getMethodName(result));
-        currentTest.log(Status.FAIL, result.getThrowable().getMessage());
-        currentTest.log(Status.FAIL, result.getThrowable());
+        if (currentTest == null) {
+            log.warn("No ExtentTest found for {}; skipping report logging.", getTestIdentifier(result));
+        } else {
+            currentTest.log(Status.FAIL, "Test failed: " + getMethodName(result));
 
-        try {
-            ExtentLogger.failWithScreenshot("Failure screenshot captured.");
-        } catch (Exception exception) {
-            log.error("Failed to attach screenshot.", exception);
+            Throwable throwable = result.getThrowable();
+            if (throwable != null) {
+                currentTest.log(Status.FAIL, throwable.getMessage());
+                currentTest.log(Status.FAIL, throwable);
+            }
+
+            safely(() -> ExtentLogger.failWithScreenshot("Failure screenshot captured."));
         }
 
         finalizeTestContext();
@@ -94,10 +107,21 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentReportManager.getExtentTest().log(Status.SKIP, "Test skipped: " + getMethodName(result));
-        ExtentReportManager.getExtentTest().log(Status.INFO, result.getThrowable());
         log.warn("Test skipped: {}", getTestIdentifier(result));
-        ExtentLogger.fail("Test execution skipped.");
+
+        ExtentTest currentTest = ExtentReportManager.getExtentTest();
+        if (currentTest == null) {
+            log.warn("No ExtentTest found for {}; skipping report logging.", getTestIdentifier(result));
+        } else {
+            currentTest.log(Status.SKIP, "Test skipped: " + getMethodName(result));
+
+            Throwable throwable = result.getThrowable();
+            if (throwable != null) {
+                currentTest.log(Status.INFO, throwable);
+            }
+
+            safely(() -> ExtentLogger.skip("Test execution skipped."));
+        }
 
         finalizeTestContext();
     }
@@ -116,9 +140,22 @@ public class TestListener implements ITestListener {
         return getClassName(result) + "/" + getMethodName(result);
     }
 
+    private String newTraceId(String prefix) {
+        String traceId = prefix + "-" + UUID.randomUUID();
+        ThreadContext.put(TRACE_ID, traceId);
+        return traceId;
+    }
+
     private void finalizeTestContext() {
         ExtentReportManager.unload();
-        String traceId = FIXT_PREFIX + "-" + UUID.randomUUID();
-        ThreadContext.put(TRACE_ID, traceId);
+        newTraceId(FIXT_PREFIX);
+    }
+
+    private void safely(Runnable reportingAction) {
+        try {
+            reportingAction.run();
+        } catch (Exception exception) {
+            log.error("Reporting action failed; continuing test execution.", exception);
+        }
     }
 }
