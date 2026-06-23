@@ -17,6 +17,15 @@ import io.github.earlbertmercado.selenium.driver.DriverManager;
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
+/**
+ * Base page abstraction for all page objects.
+ *
+ * Provides common interaction helpers, element waits, and access to the
+ * thread-local WebDriver instance managed by io.github.earlbertmercado.selenium.driver.DriverManager.
+ *
+ * Assumes that the driver has already been initialized before any page object
+ * helper methods are invoked.
+ */
 public class BasePage {
 
     protected final Logger log;

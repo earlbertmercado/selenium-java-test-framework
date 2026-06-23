@@ -27,6 +27,7 @@ public final class ExtentReportManager {
 
     // --- Report Lifecycle ---
 
+    // Initializes the ExtentReports instance if not already created.
     public static synchronized void initReports() {
         if (Objects.nonNull(extent)) {
             return;

@@ -4,6 +4,13 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 
 import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
 
+/**
+ * Convenience wrapper around ExtentReports logging calls for the current test.
+ *
+ * Offers shorthand methods to log pass/fail/info/skip status updates and
+ * attach screenshots on failure without requiring callers to manage the
+ * com.aventstack.extentreports.ExtentTest instance directly.
+ */
 public final class ExtentLogger {
 
     private ExtentLogger() {}
@@ -15,6 +22,7 @@ public final class ExtentLogger {
     public static void fail(String message) {
         ExtentReportManager.getExtentTest().fail(message);
     }
+
     public static void info(String message)  {
         ExtentReportManager.getExtentTest().info(message);
     }

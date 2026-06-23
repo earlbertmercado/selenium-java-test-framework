@@ -5,6 +5,12 @@ import org.openqa.selenium.By;
 import io.github.earlbertmercado.selenium.constants.AppConstants;
 import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
+/**
+ * Page Object for the item detail view.
+ *
+ * Encapsulates interactions and assertions around a single product's detail page.
+ * Assumes the current browser page belongs to a product detail page.
+ */
 public class ItemDetailPage extends BasePage {
     
     private final By itemName               = LocatorRepository.get("item_detail.name");
@@ -22,6 +28,7 @@ public class ItemDetailPage extends BasePage {
     }
 
     // ------------------ Getter Methods ------------------
+
     public String getItemName() {
         log.info("Getting item name text");
         return getText(itemName);

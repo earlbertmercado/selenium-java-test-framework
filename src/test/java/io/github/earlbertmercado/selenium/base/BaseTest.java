@@ -15,6 +15,11 @@ import io.github.earlbertmercado.selenium.driver.DriverFactory;
 import io.github.earlbertmercado.selenium.driver.DriverManager;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
 
+/**
+ * Base test class for all TestNG test classes.
+ *
+ * Handles WebDriver setup/teardown and thread-local logging context initialization.
+ */
 @Listeners(io.github.earlbertmercado.selenium.listeners.TestListener.class)
 public class BaseTest {
 

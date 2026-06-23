@@ -8,6 +8,13 @@ import org.openqa.selenium.WebElement;
 
 import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
+/**
+ * Page Object representing the inventory listing page.
+ *
+ * Provides access to product metadata, actions for adding/removing items,
+ * sorting operations, and validation of page state.
+ * Assumes the inventory page is currently loaded in the browser.
+ */
 public class InventoryPage extends BasePage {
 
     private final By inventoryTitle         = LocatorRepository.get("inventory.title");
@@ -226,6 +233,10 @@ public class InventoryPage extends BasePage {
         return prices.equals(sortedPrices);
     }
 
+    /**
+     * Validates that all displayed inventory items contain a non-empty name, description,
+     * a valid numeric price, and a non-empty image source.
+     */
     public boolean areAllItemsValid() {
         log.info("Performing bulk validation of all displayed items.");
         List<ItemInfo> products = getAllItemInfo();

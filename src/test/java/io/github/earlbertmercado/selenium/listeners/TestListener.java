@@ -15,10 +15,11 @@ import com.aventstack.extentreports.Status;
 import io.github.earlbertmercado.selenium.reports.ExtentLogger;
 import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
 
-/*
- * TestNG listener that bridges suite/test lifecycle events into both the
- * Log4j2 trace-id context (for log correlation across threads) and the
- * ExtentReports test log.
+/**
+ * TestNG listener for integrating test execution lifecycle events with logs and reports.
+ *
+ * Creates trace IDs for suite/test/fixture operations and populates ExtentReports entries
+ * for pass/fail/skip outcomes.
  */
 public final class TestListener implements ITestListener {
 
