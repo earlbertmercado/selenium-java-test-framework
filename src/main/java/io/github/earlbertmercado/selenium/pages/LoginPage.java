@@ -4,6 +4,12 @@ import org.openqa.selenium.By;
 
 import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
+/**
+ * Page Object representing the login screen for the SauceDemo application.
+ *
+ * Encapsulates login form interactions and visibility checks for login page elements.
+ * Assumes the browser has already navigated to the login page before use.
+ */
 public class LoginPage extends BasePage {
 
     private final By usernameField  = LocatorRepository.get("login.username");

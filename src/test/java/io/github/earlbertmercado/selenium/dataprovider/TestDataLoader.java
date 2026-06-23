@@ -12,6 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
+/**
+ * Loads test user data from JSON files under the configured environment folder.
+ *
+ * Uses a cache to avoid reloading the same data multiple times during the test run.
+ */
 public final class TestDataLoader {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();

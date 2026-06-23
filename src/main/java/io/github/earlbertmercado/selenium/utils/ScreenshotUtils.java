@@ -9,6 +9,7 @@ public final class ScreenshotUtils {
 
     private ScreenshotUtils() {}
 
+    // Captures a screenshot and returns it as a Base64 encoded string.
     public static String getBase64Image() {
         return ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BASE64);
     }

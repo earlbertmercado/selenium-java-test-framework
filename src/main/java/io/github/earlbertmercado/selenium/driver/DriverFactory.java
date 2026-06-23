@@ -11,10 +11,18 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 import io.github.earlbertmercado.selenium.utils.ConfigReader;
 import io.github.earlbertmercado.selenium.utils.TypeCaster;
 
+/**
+ * Factory responsible for creating WebDriver instances based on configuration.
+ *
+ * Supports local browser instantiation as well as remote/grid execution.
+ */
 public final class DriverFactory {
 
     private DriverFactory() {}
 
+    /**
+     * Creates the configured WebDriver instance for the current test.
+     */
     public static WebDriver createDriverInstance() {
         String mode = ConfigReader.get("execution_mode").toLowerCase().trim();
         String browserName = ConfigReader.get("browser_name").toLowerCase().trim();
