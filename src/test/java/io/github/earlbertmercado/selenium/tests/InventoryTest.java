@@ -115,15 +115,12 @@ public class InventoryTest extends BaseTest {
         final int FIRST_ITEM = 0;
         final int SECOND_ITEM = 1;
         final int THIRD_ITEM = 2;
-        final int EXPECTED_CART_BADGE_COUNT = 0;
 
         inventoryPage.addThenRemoveItems(FIRST_ITEM, SECOND_ITEM, THIRD_ITEM);
 
-        int cartItemCount = inventoryPage.getCartItemCount();
-
-        assertion.assertEquals(cartItemCount,
-                EXPECTED_CART_BADGE_COUNT,
-                "Cart badge count does not match expected count after removing items.");
+        assertion.assertTrue(
+                inventoryPage.isCartBadgeAbsent(),
+                "Cart badge should be absent after removing all items.");
     }
 
     @Test(description = "Verify if clicking item navigates to item detail page")
