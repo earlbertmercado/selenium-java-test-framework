@@ -60,10 +60,15 @@ public class BaseTest {
             log.info("Starting teardown process...");
 
             if (DriverManager.hasDriver()) {
-                DriverManager.getDriver().manage().deleteAllCookies();
-                DriverManager.getDriver().quit();
-                DriverManager.unload();
-                log.info("Driver closed and thread context cleared.");
+                try {
+                    DriverManager.getDriver().quit();
+                    log.info("Driver closed.");
+                } catch (Exception exception) {
+                    log.warn("Driver could not be closed cleanly.", exception);
+                } finally {
+                    DriverManager.unload();
+                    log.info("Driver thread local cleared.");
+                }
             }
         } finally {
             ThreadContext.clearAll();
