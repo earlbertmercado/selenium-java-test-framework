@@ -129,19 +129,13 @@ public class InventoryPage extends BasePage {
         String itemName = getItemName(index);
         log.info("Adding item to cart: '{}' (Index: {})", itemName, index);
 
-        if ("Add to cart".equals(getElementByIndex(addToCartButtons, index).getText().trim())) {
-            getElementByIndex(addToCartButtons, index).click();
-            log.info("Item '{}' added to cart successfully.", itemName);
-        } else {
-            log.warn("Item '{}' is already in the cart or button state is incorrect.", itemName);
-        }
+        getElementByIndex(addToCartButtons, index).click();
+        log.info("Item '{}' added to cart successfully.", itemName);
     }
 
     public void removeItemFromCartByIndex(int index) {
         log.info("Removing item from cart at index: {}", index);
-        if ("Remove".equals(getElementByIndex(removeToCartButtons, index).getText().trim())) {
-            getElementByIndex(removeToCartButtons, index).click();
-        }
+        getElementByIndex(removeToCartButtons, index).click();
     }
 
     public void addItemsToCart(int... indices) {
@@ -154,7 +148,8 @@ public class InventoryPage extends BasePage {
 
     public void removeItemsFromCart(int... indices) {
         log.info("Removing multiple items from cart.");
-        for (int index : indices) {
+        for (int position = indices.length - 1; position >= 0; position--) {
+            int index = indices[position];
             log.debug("Removing item at index {}", index);
             removeItemFromCartByIndex(index);
         }
