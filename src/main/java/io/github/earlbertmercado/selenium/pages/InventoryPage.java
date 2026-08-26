@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 import io.github.earlbertmercado.selenium.utils.LocatorRepository;
 
 /**
@@ -69,14 +70,18 @@ public class InventoryPage extends BasePage {
         if (isVisible(shoppingCartBadge)) {
             String badgeText = getText(shoppingCartBadge);
             try {
-                return Integer.parseInt(badgeText);
+                return Integer.parseInt(badgeText.trim());
             } catch (NumberFormatException e) {
-                log.error("Failed to parse cart item count from badge text: '{}'", badgeText, e);
-                return 0;
+                throw new FrameworkException(
+                        "Failed to parse cart item count from badge text: '" + badgeText + "'", e);
             }
         } else {
             return 0;
         }
+    }
+
+    public boolean isCartBadgeAbsent() {
+        return !isVisible(shoppingCartBadge);
     }
 
     public List<ItemInfo> getAllItemInfo() {
