@@ -59,7 +59,7 @@ public class BaseTest {
 
             log.info("Starting teardown process...");
 
-            if (DriverManager.getDriver() != null) {
+            if (DriverManager.hasDriver()) {
                 DriverManager.getDriver().manage().deleteAllCookies();
                 DriverManager.getDriver().quit();
                 DriverManager.unload();

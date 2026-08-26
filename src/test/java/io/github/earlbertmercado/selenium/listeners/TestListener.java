@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
 import org.testng.ITestContext;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
@@ -14,6 +16,7 @@ import com.aventstack.extentreports.Status;
 
 import io.github.earlbertmercado.selenium.reports.ExtentLogger;
 import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
+import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
 
 /**
  * TestNG listener for integrating test execution lifecycle events with logs and reports.
@@ -21,10 +24,11 @@ import io.github.earlbertmercado.selenium.reports.ExtentReportManager;
  * Creates trace IDs for suite/test/fixture operations and populates ExtentReports entries
  * for pass/fail/skip outcomes.
  */
-public final class TestListener implements ITestListener {
+public final class TestListener implements ITestListener, IInvokedMethodListener {
 
     private static final Logger log = LogManager.getLogger(TestListener.class);
     private static final String TRACE_ID = "traceId";
+    private static final String SCREENSHOT = "screenshot";
 
     // Prefixes for different operation types (all 4 letters for consistent spacing)
     // SUIT = Suite, TEST = Test, FIXT = Fixture (setup/teardown)
@@ -100,10 +104,28 @@ public final class TestListener implements ITestListener {
                 currentTest.log(Status.FAIL, throwable);
             }
 
-            safely(() -> ExtentLogger.failWithScreenshot("Failure screenshot captured."));
+            String screenshot = (String) result.getAttribute(SCREENSHOT);
+            if (screenshot == null) {
+                log.error("No failure screenshot was captured for {}.", getTestIdentifier(result));
+            } else {
+                safely(() -> 
+                ExtentLogger.failWithScreenshot("Failure screenshot captured.", screenshot));
+            }
         }
 
         finalizeTestContext();
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod invokedMethod, ITestResult result) {
+        if (invokedMethod.isTestMethod() && result.getStatus() == ITestResult.FAILURE) {
+            try {
+                result.setAttribute(SCREENSHOT, ScreenshotUtils.getBase64Image());
+            } catch (Exception exception) {
+                log.error("Failed to capture failure screenshot for {}.", 
+                getTestIdentifier(result), exception);
+            }
+        }
     }
 
     @Override
