@@ -1,5 +1,6 @@
 package io.github.earlbertmercado.selenium.pages;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 
 import io.github.earlbertmercado.selenium.constants.AppConstants;
@@ -11,6 +12,7 @@ import io.github.earlbertmercado.selenium.utils.LocatorRepository;
  * Encapsulates interactions and assertions around a single product's detail page.
  * Assumes the current browser page belongs to a product detail page.
  */
+@Slf4j
 public class ItemDetailPage extends BasePage {
     
     private final By itemName               = LocatorRepository.get("item_detail.name");

@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Objects;
 
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -16,9 +17,8 @@ import io.github.earlbertmercado.selenium.utils.TypeCaster;
  *
  * Supports local browser instantiation as well as remote/grid execution.
  */
+@NoArgsConstructor 
 public final class DriverFactory {
-
-    private DriverFactory() {}
 
     /**
      * Creates the configured WebDriver instance for the current test.

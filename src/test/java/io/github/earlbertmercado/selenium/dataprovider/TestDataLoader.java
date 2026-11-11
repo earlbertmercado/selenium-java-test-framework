@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
@@ -17,6 +18,7 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
  *
  * Uses a cache to avoid reloading the same data multiple times during the test run.
  */
+@NoArgsConstructor
 public final class TestDataLoader {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -26,8 +28,6 @@ public final class TestDataLoader {
     private static final String ENV = System.getProperty("env", "test").trim().toLowerCase();
 
     private static Map<String, TestDataUsers> users;
-
-    private TestDataLoader() {}
 
     public static TestDataUsers getUser(String key) {
         ensureUsersLoaded();

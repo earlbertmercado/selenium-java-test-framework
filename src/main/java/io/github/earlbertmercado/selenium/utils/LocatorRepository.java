@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.By;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
@@ -18,12 +19,10 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
  * Each property value must be in the form "strategy:selector",
  * e.g. login.button=id:loginBtn.
  */
+@NoArgsConstructor
 public final class LocatorRepository {
 
     private static Map<String, String> locators;
-
-    private LocatorRepository() {
-    }
 
     public static By get(String key) {
         String value = locators().get(key.trim().toLowerCase());

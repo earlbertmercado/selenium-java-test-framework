@@ -2,8 +2,8 @@ package io.github.earlbertmercado.selenium.base;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -20,16 +20,15 @@ import io.github.earlbertmercado.selenium.utils.ConfigReader;
  *
  * Handles WebDriver setup/teardown and thread-local logging context initialization.
  */
+@Slf4j
+@NoArgsConstructor
 @Listeners(io.github.earlbertmercado.selenium.listeners.TestListener.class)
 public class BaseTest {
 
-    protected static final Logger log = LogManager.getLogger(BaseTest.class);
     private static final String TRACE_ID = "traceId";
     private static final String FIXT_PREFIX = "FIXT";
 
     protected Assertion assertion;
-
-    protected BaseTest() {}
 
     @BeforeMethod
     protected void setUp() {

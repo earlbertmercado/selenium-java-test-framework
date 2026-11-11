@@ -29,6 +29,7 @@ The default test suite validates core flows:
 - Maven
 - Selenium Java 4.44.0
 - TestNG 7.12.0
+- Lombok 1.18.0
 - Log4j2 2.26.0
 - Extent Reports 5.1.2
 - Jackson Databind 2.21.3 (test scope)

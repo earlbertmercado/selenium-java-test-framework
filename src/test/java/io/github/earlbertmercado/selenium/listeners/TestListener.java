@@ -2,8 +2,7 @@ package io.github.earlbertmercado.selenium.listeners;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 import org.testng.ITestContext;
 import org.testng.IInvokedMethod;
@@ -24,9 +23,9 @@ import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
  * Creates trace IDs for suite/test/fixture operations and populates ExtentReports entries
  * for pass/fail/skip outcomes.
  */
+@Slf4j 
 public final class TestListener implements ITestListener, IInvokedMethodListener {
 
-    private static final Logger log = LogManager.getLogger(TestListener.class);
     private static final String TRACE_ID = "traceId";
     private static final String SCREENSHOT = "screenshot";
 

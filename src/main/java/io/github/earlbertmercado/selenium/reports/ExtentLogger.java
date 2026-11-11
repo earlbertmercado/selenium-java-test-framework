@@ -1,6 +1,7 @@
 package io.github.earlbertmercado.selenium.reports;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
+import lombok.NoArgsConstructor;
 
 import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
 
@@ -11,9 +12,8 @@ import io.github.earlbertmercado.selenium.utils.ScreenshotUtils;
  * attach screenshots on failure without requiring callers to manage the
  * com.aventstack.extentreports.ExtentTest instance directly.
  */
+@NoArgsConstructor
 public final class ExtentLogger {
-
-    private ExtentLogger() {}
 
     public static void pass(String message) {
         ExtentReportManager.getExtentTest().pass(message);
