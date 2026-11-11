@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import lombok.NoArgsConstructor;
+
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 /**
@@ -15,13 +17,12 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
  * runtime via a JVM system property (e.g. -Dsome.key=value), which
  * takes priority over the properties file.
  */
+@NoArgsConstructor
 public final class ConfigReader {
 
     private static final String ENV_KEY = "env";
     private static final String DEFAULT_ENV = "test";
     private static Properties properties;
-
-    private ConfigReader() {}
 
     public static String get(String key) {
         String normalizedKey = key.trim().toLowerCase();

@@ -1,5 +1,6 @@
 package io.github.earlbertmercado.selenium.driver;
 
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriver;
 
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
@@ -10,11 +11,11 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
  * This class is used by test setup and page objects to retrieve the browser
  * instance bound to the currently executing thread.
  */
+@NoArgsConstructor 
 public final class DriverManager {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
-    private DriverManager() {}
 
     public static WebDriver getDriver() {
         WebDriver driver = driverThreadLocal.get();
