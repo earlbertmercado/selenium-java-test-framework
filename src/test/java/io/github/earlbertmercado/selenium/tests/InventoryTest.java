@@ -1,5 +1,6 @@
 package io.github.earlbertmercado.selenium.tests;
 
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,6 +13,7 @@ import io.github.earlbertmercado.selenium.pages.InventoryPage;
 import io.github.earlbertmercado.selenium.pages.ItemDetailPage;
 import io.github.earlbertmercado.selenium.pages.LoginPage;
 
+@Slf4j 
 public class InventoryTest extends BaseTest {
 
     private InventoryPage inventoryPage;

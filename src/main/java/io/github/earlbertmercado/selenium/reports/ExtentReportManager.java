@@ -6,6 +6,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import lombok.NoArgsConstructor;
 
 import io.github.earlbertmercado.selenium.constants.FrameworkConstants;
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
@@ -18,12 +19,11 @@ import io.github.earlbertmercado.selenium.utils.ConfigReader;
  * fails partway (e.g. a missing config key), nothing is left half-initialized,
  * so a later retry of initReports() can succeed cleanly.
  */
+@NoArgsConstructor
 public final class ExtentReportManager {
 
     private static ExtentReports extent;
     private static final ThreadLocal<ExtentTest> extentTestThreadLocal = new ThreadLocal<>();
-
-    private ExtentReportManager() {}
 
     // --- Report Lifecycle ---
 

@@ -1,5 +1,7 @@
 package io.github.earlbertmercado.selenium.utils;
 
+import lombok.NoArgsConstructor;
+
 import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
 
 /*
@@ -8,9 +10,8 @@ import io.github.earlbertmercado.selenium.exceptions.FrameworkException;
  * common truthy/falsy tokens case-insensitively: "true"/"yes"/"1" and
  * "false"/"no"/"0".
  */
+@NoArgsConstructor
 public final class TypeCaster {
-
-    private TypeCaster() {}
 
     public static boolean toBoolean(String value) {
         if (value == null || value.trim().isEmpty()) {

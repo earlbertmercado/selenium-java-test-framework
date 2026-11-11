@@ -3,6 +3,7 @@ package io.github.earlbertmercado.selenium.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,6 +17,7 @@ import io.github.earlbertmercado.selenium.utils.LocatorRepository;
  * sorting operations, and validation of page state.
  * Assumes the inventory page is currently loaded in the browser.
  */
+@Slf4j
 public class InventoryPage extends BasePage {
 
     private final By inventoryTitle         = LocatorRepository.get("inventory.title");
